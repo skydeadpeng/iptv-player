@@ -16,36 +16,39 @@ iOS 原生版暂缓至二期。定位为**通用播放器**：用户自行导入
 
 | 项目 | 星数 | 协议 | 活跃度 | 结论 |
 |---|---|---|---|---|
-| mytv-android/mytv-android | 3.0k | MIT | 🟢 2026-11 仍在更新 | **原生版基座** |
-| lizongying/my-tv-0 | 4.7k | MIT | 🟡 2025-05 停更 | 备选 |
+| ahXN00/OwnTV | 735 | GPL-3.0 | 🟢 2026-11-05 提交 | **原生版基座**（源码完整，ExoPlayer+mpv，EPG/时移） |
+| Davidona/StreamVault-IPTV | 1.0k | 非商业源可见 | 🟢 | 备选（不可商用） |
+| lizongying/my-tv-0 | 4.7k | MIT | 🔴 2025-05 停更 | 备选 |
+| mytv-android/mytv-android | 3.0k | — | 🟢 | ❌ **无公开源码**（内部维护，仅发 APK） |
 | 4gray/iptvnator | 7.6k | — | 🟢 | 桌面端参考 |
 | Guovin/iptv-api | 26k | — | 🟢 | 二期源管理参考 |
 | fanmingming/live | 29k | — | 🟢 | 测试直播源 |
 | iptv-org/iptv | 143k | — | 🟢 | 测试直播源 |
 
-选 `mytv-android` 为基座的理由：MIT 协议；Media3 + IJKPlayer + VLC 三播放引擎（运营商源兼容性关键）；Jetpack Compose + Material 3；TV 遥控器适配已完成；社区活跃。
+选 `OwnTV` 为基座的理由：源码公开完整；Kotlin + Compose for TV；ExoPlayer(Media3) + mpv 双引擎；支持 M3U/Xtream/Stalker + EPG + catch-up；社区极活跃。
+**GPL-3.0 约束**：自用、修改、免费分发不受限；分发修改版须以 GPL 开源；闭源商用受限（本期不含商业计划，风险表见下）。
 
 ## 项目结构
 
 ```
 iptv/
-├── native/              # 原生版（fork mytv-android）
+├── native/              # 原生版（clone OwnTV 后定制）
 ├── webview/
 │   ├── web/             # H5 播放器（全部 UI 与播放逻辑）
 │   └── android/         # Kotlin WebView 薄壳
 ├── docs/
-└── (二期：webview/ios/、native 的 EPG/udpxy)
+└── (二期：webview/ios/、native 的 udpxy)
 ```
 
 ## 原生版设计
 
-- **基座**：fork mytv-android，保留三播放引擎与遥控器交互
-- **技术栈**：Kotlin + Jetpack Compose + Material 3 + Media3/IJKPlayer/VLC
+- **基座**：clone OwnTV（GPL-3.0），保留 ExoPlayer + mpv 双引擎与遥控器交互
+- **技术栈**：Kotlin + Jetpack Compose for TV + Media3(ExoPlayer)/mpv
 - **定制点**：
   - 包名、应用名、图标、主题色
   - 频道源管理：M3U 订阅增删改、导入进度与失败提示
-  - 频道界面：分类折叠、搜索、收藏排序
-- **TV 适配**（沿用基座）：方向键换台、OK 呼出频道列表、数字键直达、菜单键设置
+  - 频道界面：分类、搜索、收藏排序
+- **TV 适配**（沿用基座）：方向键换台、OK 呼出频道列表、菜单键设置
 
 ## WebView 版设计
 
