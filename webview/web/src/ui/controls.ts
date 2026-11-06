@@ -1,6 +1,7 @@
 // src/ui/controls.ts
 import { Channel } from '../types';
 import * as store from '../storage/store';
+import { showImportDialog } from './importDialog';
 
 export interface Controls {
   filter(chs: Channel[]): Channel[];
@@ -46,7 +47,7 @@ export function createControls(root: HTMLElement, refilter: () => void): Control
     },
   };
 
-  // 顶栏：搜索框 + 比例按钮（DOM 装配在 ctrl 定义之后，避免引用未初始化变量）
+  // 顶栏：搜索框 + 添加源按钮 + 比例按钮（DOM 装配在 ctrl 定义之后，避免引用未初始化变量）
   const bar = document.createElement('div');
   bar.style.cssText = 'position:fixed;top:0;left:160px;right:300px;display:flex;gap:8px;padding:8px;background:rgba(0,0,0,.7);z-index:10;';
   const input = document.createElement('input');
@@ -56,7 +57,13 @@ export function createControls(root: HTMLElement, refilter: () => void): Control
   const ratioBtn = document.createElement('button');
   ratioBtn.textContent = '比例';
   ratioBtn.onclick = () => ctrl.cycleRatio();
-  bar.append(input, ratioBtn);
+  // 「添加源」入口：showImportDialog() 此前只有定义、没有任何调用点，
+  // 用户无法添加订阅源 → 整个 App 拿不到频道。importDialog 不 import controls，无循环依赖。
+  const addBtn = document.createElement('button');
+  addBtn.id = 'btn-add-source';
+  addBtn.textContent = '添加源';
+  addBtn.onclick = () => showImportDialog();
+  bar.append(input, addBtn, ratioBtn);
   root.appendChild(bar);
 
   document.addEventListener('keydown', (e: KeyboardEvent) => {

@@ -4,8 +4,9 @@ import { Channel, PlaylistSource } from './types';
 import * as store from './storage/store';
 import { createPlayer, Player } from './player/engine';
 import { createVirtualList, VirtualList } from './ui/virtualList';
-import { initControls } from './ui/controls';
+import { initControls, Controls } from './ui/controls';
 import { setupImportDialog } from './ui/importDialog';
+import { renderChannelRow } from './ui/channelRow';
 
 declare global {
   interface Window {
@@ -28,6 +29,10 @@ let allChannels: Channel[] = [];
 let currentGroup = '全部';
 let vl: VirtualList;
 let player: Player = createPlayer(video);
+/** controls 单例（initControls 内部持有）；reload() 里赋值，行内收藏按钮要用 */
+let ctrl: Controls | null = null;
+/** 收藏 URL 缓存：避免每渲染一行都读一次 localStorage（1000+ 频道滚动时的热路径） */
+let favUrls = new Set<string>();
 
 function allGroups(): string[] {
   const set = new Set<string>(['全部']);
@@ -38,7 +43,18 @@ function allGroups(): string[] {
 function filtered(): Channel[] {
   const byGroup = currentGroup === '全部' ? allChannels : allChannels.filter(c => c.group === currentGroup);
   // controls 单例在 reload() 内初始化；首次 reload 前不会被调用
-  return initControls(document.body, () => vl.setItems(filtered())).filter(byGroup);
+  return initControls(document.body, applyFilter).filter(byGroup);
+}
+
+/**
+ * 过滤/重排后的唯一出口：刷新收藏缓存 → 同步键盘换台用的频道表 → 刷新列表。
+ * setChannelList 必须跟着过滤走：否则搜索/切分组后 ↑↓ 换台仍在旧列表里翻。
+ */
+function applyFilter(): void {
+  favUrls = new Set(store.loadFavorites());
+  const items = filtered();
+  ctrl?.setChannelList(items);
+  vl.setItems(items);
 }
 
 function renderGroups(): void {
@@ -47,7 +63,7 @@ function renderGroups(): void {
     const btn = document.createElement('button');
     btn.textContent = `${g}`;
     btn.style.cssText = 'display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;color:inherit;cursor:pointer;';
-    btn.onclick = () => { currentGroup = g; renderGroups(); vl.setItems(filtered()); };
+    btn.onclick = () => { currentGroup = g; renderGroups(); applyFilter(); };
     if (g === currentGroup) btn.style.background = '#333';
     groupsEl.appendChild(btn);
   }
@@ -63,18 +79,20 @@ function play(c: Channel): void {
 function reload(): void {
   allChannels = store.loadSources().flatMap((s: PlaylistSource) => s.channels);
   currentGroup = '全部';
-  const ctrl = initControls(document.body, () => vl.setItems(filtered()));
+  ctrl = initControls(document.body, applyFilter);
   ctrl.setPlay(play);
-  ctrl.setChannelList(filtered());
   renderGroups();
-  vl.setItems(filtered());
+  applyFilter();
 }
 
 try {
   vl = createVirtualList(channelsEl, {
     rowH: 48,
     renderItem: (el, c) => {
-      el.textContent = `${store.loadFavorites().includes(c.url) ? '★ ' : ''}${c.name}`;
+      renderChannelRow(el, c, favUrls.has(c.url), (ch) => {
+        ctrl?.toggleFavorite(ch);
+        applyFilter(); // 收藏置顶会重排列表，顺带刷新 ★ 状态
+      });
       el.onclick = () => play(c);
     },
   });

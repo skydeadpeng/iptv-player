@@ -6,6 +6,9 @@ let opts: ImportOpts | null = null;
 
 export function setupImportDialog(o: ImportOpts): void { opts = o; }
 
+/** 对话框已打开但 importDialog 未被 setupImportDialog 初始化时的提示（避免 opts!.xxx 抛 TypeError） */
+const NOT_READY = '导入功能未初始化';
+
 export function showImportDialog(): void {
   const dlg = document.createElement('div');
   dlg.id = 'import-dialog';
@@ -29,9 +32,10 @@ export function showImportDialog(): void {
   dlg.querySelector('#import-go')!.addEventListener('click', async () => {
     const url = dlg.querySelector<HTMLTextAreaElement>('#import-url')!.value.trim();
     if (!url) return;
+    if (!opts) { dlg.querySelector('#import-error')!.textContent = NOT_READY; return; }
     try {
       const text = await fetchBridge.fetchText(url);
-      const err = opts!.onImported(text, url);
+      const err = opts.onImported(text, url);
       if (err) { dlg.querySelector('#import-error')!.textContent = err; return; }
       close();
     } catch (e) {
@@ -44,7 +48,8 @@ export function showImportDialog(): void {
     if (fetchBridge.hasNative()) {
       const file = await fetchBridge.pickM3uFile();
       if (!file) return; // 用户取消或超时
-      const err = opts!.onImported(file.text, file.name);
+      if (!opts) { dlg.querySelector('#import-error')!.textContent = NOT_READY; return; }
+      const err = opts.onImported(file.text, file.name);
       if (err) { dlg.querySelector('#import-error')!.textContent = err; return; }
       close();
       return;
@@ -55,7 +60,8 @@ export function showImportDialog(): void {
     input.onchange = async () => {
       const file = input.files?.[0];
       if (!file) return;
-      const err = opts!.onImported(await file.text(), file.name);
+      if (!opts) { dlg.querySelector('#import-error')!.textContent = NOT_READY; return; }
+      const err = opts.onImported(await file.text(), file.name);
       if (err) { dlg.querySelector('#import-error')!.textContent = err; return; }
       close();
     };

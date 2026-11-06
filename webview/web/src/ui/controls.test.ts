@@ -1,6 +1,7 @@
 // src/ui/controls.test.ts
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createControls } from './controls';
+import { setupImportDialog } from './importDialog';
 import { Channel } from '../types';
 
 const chs: Channel[] = [
@@ -44,5 +45,18 @@ describe('controls', () => {
     expect((played as Channel).name).toBe('CCTV-5');
     c.stepChannel(-1);                    // 回退
     expect((played as Channel).name).toBe('CCTV-1');
+  });
+
+  it('顶栏「添加源」按钮打开导入对话框（导入功能的唯一 UI 入口）', () => {
+    setupImportDialog({ onImported: () => null });
+    createControls(document.body, () => {});
+    const btn = document.querySelector<HTMLButtonElement>('#btn-add-source');
+    expect(btn).not.toBeNull();
+    expect(btn!.textContent).toBe('添加源');
+    btn!.click();
+    expect(document.getElementById('import-dialog')).not.toBeNull();
+    // 对照鉴别：此前 showImportDialog 无任何调用点 → 对话框根本打不开
+    document.querySelector<HTMLButtonElement>('#import-cancel')!.click();
+    expect(document.getElementById('import-dialog')).toBeNull();
   });
 });
