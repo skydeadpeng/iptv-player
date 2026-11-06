@@ -1,0 +1,7 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="cctv-1" tvg-logo="https://example.com/logo/cctv-1.png" group-title="央视",CCTV-1
+http://example.com/live/cctv-1.m3u8
+#EXTINF:-1 tvg-id="cctv-5" tvg-logo="https://example.com/logo/cctv-5.png" group-title="央视",CCTV-5
+http://example.com/live/cctv-5.m3u8
+#EXTINF:-1,测试频道
+http://example.com/live/test.m3u8
