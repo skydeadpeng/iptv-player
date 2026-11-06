@@ -17,11 +17,29 @@ export function createPlayer(video: HTMLVideoElement, opts?: { timeoutMs?: numbe
   let watchdog: ReturnType<typeof setTimeout> | null = null;
   let fatalCb: ((msg: string) => void) | null = null;
 
+  /**
+   * 换台前的「轻量重置」：停掉旧的播放引擎实例 + 暂停画面。
+   *
+   * 关键：**不要**在这里 video.removeAttribute('src') / video.load()。
+   * 浏览器的资源选择(load)算法是异步任务：load() 排队的任务会在新源挂上之后才执行，
+   * 把刚挂好的流 abort 掉（媒体元素进入 NETWORK_EMPTY，readyState 卡在 HAVE_NOTHING），
+   * 于是「第二个频道永远出不来画面」，最后被 8s 看门狗判成「播放失败」。
+   * Task 9 端到端实证：清掉这两行后，本地 HLS → mux.dev 换台 0.7s 出图；
+   * 保留时 100% 卡死并报「播放失败：HLS 超时（8000ms 无数据）」。
+   * 换源本身不需要重置元素——各分支都会写 video.src，新 src 会自动中止旧资源。
+   */
   function clearAll(): void {
     if (watchdog) { clearTimeout(watchdog); watchdog = null; }
     if (hls) { hls.destroy(); hls = null; }
     if (tsPlayer) { tsPlayer.pause(); tsPlayer.unload(); tsPlayer.destroy(); tsPlayer = null; }
-    video.removeAttribute('src'); video.load();
+    video.pause();
+  }
+
+  /** 彻底拆毁：额外清掉元素上的 src（只有 destroy 用，换台不能这么干，见 clearAll 注释） */
+  function destroyAll(): void {
+    clearAll();
+    video.removeAttribute('src');
+    video.load();
   }
 
   function armWatchdog(what: string): void {
@@ -70,6 +88,6 @@ export function createPlayer(video: HTMLVideoElement, opts?: { timeoutMs?: numbe
       }
     },
 
-    destroy: clearAll,
+    destroy: destroyAll,
   };
 }
