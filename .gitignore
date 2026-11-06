@@ -1,1 +1,11 @@
 progress.md
+
+# 构建产物：H5 bundle 由 webview/android/sync-web.sh 生成，不入库
+# 理由：产物是 hls.js/mpegts.js 等第三方库的压缩代码，每次改动都产生大 diff
+# 与 hash 文件名变动；第三方库还会触发静态扫描器的注入类误报。
+webview/android/app/src/main/assets/web/
+webview/web/dist/
+webview/android/build/
+webview/android/app/build/
+webview/android/.gradle/
+webview/web/node_modules/
