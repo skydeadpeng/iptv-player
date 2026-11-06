@@ -1,5 +1,5 @@
 // src/storage/store.ts
-import { PlaylistSource } from '../types';
+import type { PlaylistSource } from '../types';
 
 const K_SOURCES = 'iptv:sources';
 const K_FAVS = 'iptv:favorites';
@@ -9,7 +9,10 @@ const RECENT_MAX = 20;
 function readJSON<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return fallback;  // 三 key 均为数组，形状守卫
+    return parsed as T;
   } catch { return fallback; }
 }
 function writeJSON(key: string, value: unknown): void {

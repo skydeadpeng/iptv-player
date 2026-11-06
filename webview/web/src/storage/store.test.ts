@@ -4,7 +4,7 @@ import {
   loadSources, saveSource, removeSource,
   loadFavorites, toggleFavorite, recordPlay, getRecent,
 } from './store';
-import { PlaylistSource } from '../types';
+import type { PlaylistSource } from '../types';
 
 const src = (id: string): PlaylistSource => ({
   id, name: `源${id}`, importedAt: 1000, channels: [],
@@ -41,5 +41,18 @@ describe('store', () => {
     const recent = getRecent();
     expect(recent[0]).toBe('http://ch/5');
     expect(recent).toHaveLength(20);
+  });
+
+  it('存量非数组 JSON 回退默认值', () => {
+    localStorage.setItem('iptv:favorites', '42');     // 合法 JSON 但非数组
+    expect(loadFavorites()).toEqual([]);
+    expect(toggleFavorite('http://b')).toBe(true);
+    expect(loadFavorites()).toEqual(['http://b']);
+  });
+
+  it('存量损坏 JSON 回退默认值', () => {
+    localStorage.setItem('iptv:recent', '{oops');     // 非法 JSON
+    recordPlay('http://ch/x');
+    expect(getRecent()).toEqual(['http://ch/x']);
   });
 });
