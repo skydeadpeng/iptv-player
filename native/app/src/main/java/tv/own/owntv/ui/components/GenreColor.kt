@@ -2,7 +2,7 @@ package tv.own.owntv.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.content.AdultCategoryClassifier
 
 /**

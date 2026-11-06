@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.sports.FollowedTeam
 import tv.own.owntv.core.sports.MatchNotifications
 import tv.own.owntv.core.sports.SportsCatalog

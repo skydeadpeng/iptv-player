@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.nav.MainSection
 import tv.own.owntv.core.settings.SettingsRepository.NavHideAfter
 import tv.own.owntv.core.settings.SettingsRepository.NavLength

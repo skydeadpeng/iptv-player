@@ -3,7 +3,7 @@ package tv.own.owntv.features.settings
 import android.view.KeyEvent as AndroidKeyEvent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.RemoteShortcutAction
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.format.localizedInteger

@@ -51,8 +51,13 @@
         </intent>
     </queries>
 
+    <!-- Task 11 (brand/package customisation): the installed package is now com.iptv.native, so the
+         manifest package (which follows the Gradle `namespace`) is com.iptv.native as well.
+         A relative name (".MainActivity") would therefore resolve to com.iptv.native.MainActivity —
+         a class that does not exist. The app's own classes live in package tv.own.owntv (the
+         package it shares with the core AAR), so every component is named in full below. -->
     <application
-        android:name=".OwnTVApp"
+        android:name="tv.own.owntv.OwnTVApp"
         android:allowBackup="false"
         android:banner="@drawable/owntv_banner_eggshell"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -101,7 +106,7 @@
              supportsPictureInPicture: Settings › Video player › Picture-in-picture when leaving the app;
              the window resizes the activity, which screenSize|smallestScreenSize|screenLayout keep alive. -->
         <activity
-            android:name=".MainActivityPetrol"
+            android:name="tv.own.owntv.MainActivityPetrol"
             android:banner="@drawable/owntv_banner_petrol"
             android:enabled="false"
             android:exported="true"
@@ -131,7 +136,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivitySunflower"
+            android:name="tv.own.owntv.MainActivitySunflower"
             android:banner="@drawable/owntv_banner_sunflower"
             android:enabled="false"
             android:exported="true"
@@ -161,7 +166,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityCobalt"
+            android:name="tv.own.owntv.MainActivityCobalt"
             android:banner="@drawable/owntv_banner_cobalt"
             android:enabled="false"
             android:exported="true"
@@ -191,7 +196,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityTomato"
+            android:name="tv.own.owntv.MainActivityTomato"
             android:banner="@drawable/owntv_banner_tomato"
             android:enabled="false"
             android:exported="true"
@@ -221,7 +226,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityBoard"
+            android:name="tv.own.owntv.MainActivityBoard"
             android:banner="@drawable/owntv_banner_board"
             android:enabled="false"
             android:exported="true"
@@ -251,7 +256,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name="tv.own.owntv.MainActivity"
             android:banner="@drawable/owntv_banner_eggshell"
             android:enabled="true"
             android:exported="true"
@@ -281,7 +286,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityOlive"
+            android:name="tv.own.owntv.MainActivityOlive"
             android:banner="@drawable/owntv_banner_olive"
             android:enabled="false"
             android:exported="true"
@@ -311,7 +316,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityOliveCream"
+            android:name="tv.own.owntv.MainActivityOliveCream"
             android:banner="@drawable/owntv_banner_olive_cream"
             android:enabled="false"
             android:exported="true"
@@ -342,7 +347,7 @@
 
 
         <activity
-            android:name=".MainActivityPixel"
+            android:name="tv.own.owntv.MainActivityPixel"
             android:banner="@drawable/owntv_banner_pixel"
             android:enabled="false"
             android:exported="true"
@@ -375,7 +380,7 @@
              nothing, so the wake listener does not keep the whole app in memory. The receiver is
              exported because these are system broadcasts; the service is not. -->
         <receiver
-            android:name=".features.autostart.AutoStartReceiver"
+            android:name="tv.own.owntv.features.autostart.AutoStartReceiver"
             android:process=":autostart"
             android:exported="true">
             <intent-filter>
@@ -384,7 +389,7 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".features.autostart.WakeListenerService"
+            android:name="tv.own.owntv.features.autostart.WakeListenerService"
             android:process=":autostart"
             android:exported="false"
             android:foregroundServiceType="specialUse">

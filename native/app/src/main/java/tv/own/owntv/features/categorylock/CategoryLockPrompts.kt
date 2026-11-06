@@ -9,7 +9,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.live.LiveKey
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.features.profiles.PinDialog

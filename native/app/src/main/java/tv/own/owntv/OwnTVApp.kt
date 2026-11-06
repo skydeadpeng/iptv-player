@@ -12,6 +12,7 @@ import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.allowRgb565
 import coil3.request.crossfade
+import com.iptv.tv.BuildConfig
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Protocol

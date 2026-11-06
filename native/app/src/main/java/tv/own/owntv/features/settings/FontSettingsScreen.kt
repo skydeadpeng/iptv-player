@@ -9,7 +9,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.theme.AppFontFamily
 import tv.own.owntv.core.theme.FontCustomization
 import tv.own.owntv.core.theme.PopupFontScale

@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.backup.BackupManager
 import tv.own.owntv.ui.components.BrowseMode
 import tv.own.owntv.ui.components.OwnTVIcon

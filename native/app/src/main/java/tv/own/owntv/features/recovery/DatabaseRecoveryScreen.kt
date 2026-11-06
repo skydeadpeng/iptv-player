@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Button
 import androidx.tv.material3.Text
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /**
  * Shown instead of the shell when the database cannot be opened — a migration that failed, or a file

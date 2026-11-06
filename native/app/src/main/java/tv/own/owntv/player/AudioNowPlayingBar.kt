@@ -74,7 +74,7 @@ import tv.own.owntv.ui.theme.StageRadii
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.ui.theme.stageAccent
 import tv.own.owntv.ui.theme.stageText
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.i18n.HorizontalDirection
 import tv.own.owntv.core.i18n.horizontalDirection
 import tv.own.owntv.ui.components.OwnTVIcon

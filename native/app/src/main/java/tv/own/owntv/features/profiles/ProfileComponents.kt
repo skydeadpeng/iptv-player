@@ -29,7 +29,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.ui.components.OwnTVAvatar

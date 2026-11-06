@@ -22,7 +22,7 @@ import androidx.tv.material3.Text
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.companion.CompanionPayload
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.ProfileDao

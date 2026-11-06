@@ -13,7 +13,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /**
  * Settings › App › Auto start on wake-up. Android has no manifest broadcast for "the screen came on",

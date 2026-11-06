@@ -75,7 +75,7 @@ import androidx.tv.material3.Text
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.dao.TrendingDao
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.MovieEntity

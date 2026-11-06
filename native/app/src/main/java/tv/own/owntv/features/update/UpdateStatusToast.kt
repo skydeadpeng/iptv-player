@@ -24,7 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.stage.stageGlass
 import tv.own.owntv.ui.theme.StageColors
 import tv.own.owntv.ui.theme.stageText

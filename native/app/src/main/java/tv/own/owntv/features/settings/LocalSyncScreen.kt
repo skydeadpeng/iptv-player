@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.backup.BackupManager
 import tv.own.owntv.core.companion.CompanionServerState
 import tv.own.owntv.core.sync.local.SyncDirection

@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
 import tv.own.owntv.core.database.entity.FOLLOW_GLOBAL_LATENCY_SECS
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.SubtitleStyle
 import tv.own.owntv.player.ZoomMode
 import tv.own.owntv.player.alignment

@@ -60,7 +60,7 @@ import coil3.compose.AsyncImagePainter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.content.SearchIntent
 import tv.own.owntv.core.content.SearchKind
 import tv.own.owntv.core.content.ProgrammeSearchResult

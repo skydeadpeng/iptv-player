@@ -33,7 +33,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.tv.material3.Text
 import kotlinx.coroutines.delay
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.ClockColors
 import tv.own.owntv.core.weather.WeatherInfo
 import androidx.compose.runtime.staticCompositionLocalOf

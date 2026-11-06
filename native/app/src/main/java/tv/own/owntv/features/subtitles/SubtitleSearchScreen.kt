@@ -57,14 +57,14 @@ fun SubtitleSearchScreen(
 
         val quotaText = quotaNote?.let { quota ->
             if (quota.reset != null) {
-                pluralStringResource(tv.own.owntv.R.plurals.player_subtitles_remaining_reset, quota.remaining, quota.remaining, quota.reset)
+                pluralStringResource(com.iptv.tv.R.plurals.player_subtitles_remaining_reset, quota.remaining, quota.remaining, quota.reset)
             } else {
-                pluralStringResource(tv.own.owntv.R.plurals.player_subtitles_remaining_count, quota.remaining, quota.remaining)
+                pluralStringResource(com.iptv.tv.R.plurals.player_subtitles_remaining_count, quota.remaining, quota.remaining)
             }
         }
         tv.own.owntv.ui.stage.StagePopup(
             onDismiss = { if (editing) editing = false else onDismiss() },
-            title = stringResource(tv.own.owntv.R.string.player_subtitles_search_title),
+            title = stringResource(com.iptv.tv.R.string.player_subtitles_search_title),
             body = quotaText,
             eyebrow = null,
             width = 1000.mpx,
@@ -80,33 +80,33 @@ fun SubtitleSearchScreen(
                         // Not signed in (or session expired) — sign-in lives in Settings only.
                         is SubtitleSearchViewModel.UiState.SignedOut -> Message(
                             if (s.sessionExpired) {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_session_expired)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_session_expired)
                             } else {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_account_needed)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_account_needed)
                             },
-                            primary = stringResource(tv.own.owntv.R.string.settings_close), onPrimary = onDismiss,
+                            primary = stringResource(com.iptv.tv.R.string.settings_close), onPrimary = onDismiss,
                         )
                         SubtitleSearchViewModel.UiState.Loading ->
-                            Centered { OwnTVSpinner(); Spacer(Modifier.height(12.mpx)); Text(stringResource(tv.own.owntv.R.string.player_subtitles_working), style = stageText(18, 400), color = StageColors.Muted) }
+                            Centered { OwnTVSpinner(); Spacer(Modifier.height(12.mpx)); Text(stringResource(com.iptv.tv.R.string.player_subtitles_working), style = stageText(18, 400), color = StageColors.Muted) }
                         is SubtitleSearchViewModel.UiState.Empty -> Message(
                             if (s.showingAllLanguages) {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_no_matches_all_languages)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_no_matches_all_languages)
                             } else {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_no_matches_chosen_language)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_no_matches_chosen_language)
                             },
-                            primary = stringResource(tv.own.owntv.R.string.player_subtitles_edit_search), onPrimary = { editing = true },
-                            secondary = stringResource(tv.own.owntv.R.string.player_subtitles_show_all_languages).takeIf { !s.showingAllLanguages },
+                            primary = stringResource(com.iptv.tv.R.string.player_subtitles_edit_search), onPrimary = { editing = true },
+                            secondary = stringResource(com.iptv.tv.R.string.player_subtitles_show_all_languages).takeIf { !s.showingAllLanguages },
                             onSecondary = vm::showAllLanguages,
-                            tertiary = stringResource(tv.own.owntv.R.string.settings_close), onTertiary = onDismiss,
+                            tertiary = stringResource(com.iptv.tv.R.string.settings_close), onTertiary = onDismiss,
                         )
                         is SubtitleSearchViewModel.UiState.Error -> Message(
                             if (s.kind == SubtitleSearchViewModel.UiState.ErrorKind.LIMIT_REACHED) {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_limit_reached)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_limit_reached)
                             } else {
-                                stringResource(tv.own.owntv.R.string.player_subtitles_network_error)
+                                stringResource(com.iptv.tv.R.string.player_subtitles_network_error)
                             },
-                            primary = stringResource(tv.own.owntv.R.string.player_subtitles_try_again), onPrimary = vm::retry,
-                            tertiary = stringResource(tv.own.owntv.R.string.settings_close), onTertiary = onDismiss,
+                            primary = stringResource(com.iptv.tv.R.string.player_subtitles_try_again), onPrimary = vm::retry,
+                            tertiary = stringResource(com.iptv.tv.R.string.settings_close), onTertiary = onDismiss,
                         )
                         is SubtitleSearchViewModel.UiState.Results -> ResultsList(
                             results = s.results,
@@ -130,13 +130,13 @@ fun SubtitleSearchScreen(
 @Composable
 private fun OpenSubtitlesAttribution() {
     androidx.compose.foundation.Image(
-        painter = androidx.compose.ui.res.painterResource(tv.own.owntv.R.drawable.ic_opensubtitles_logo),
-        contentDescription = stringResource(tv.own.owntv.R.string.settings_open_subtitles),
+        painter = androidx.compose.ui.res.painterResource(com.iptv.tv.R.drawable.ic_opensubtitles_logo),
+        contentDescription = stringResource(com.iptv.tv.R.string.settings_open_subtitles),
         modifier = Modifier.height(28.mpx),
     )
     Spacer(Modifier.height(8.mpx))
     Text(
-        stringResource(tv.own.owntv.R.string.player_subtitles_api_notice),
+        stringResource(com.iptv.tv.R.string.player_subtitles_api_notice),
         style = stageText(15, 500),
         color = StageColors.Dim,
     )
@@ -157,15 +157,15 @@ private fun ResultsList(
         LazyColumn(Modifier.fillMaxWidth().heightIn(max = 430.mpx), verticalArrangement = Arrangement.spacedBy(4.mpx)) {
             items(results, key = { it.fileId }) { r ->
                 val tags = buildList {
-                    if (r.fromTrusted) add(stringResource(tv.own.owntv.R.string.player_subtitles_trusted))
-                    if (r.hearingImpaired) add(stringResource(tv.own.owntv.R.string.player_subtitles_sdh))
-                    if (r.aiTranslated) add(stringResource(tv.own.owntv.R.string.player_subtitles_ai))
-                    if (r.downloads > 0) add(pluralStringResource(tv.own.owntv.R.plurals.player_subtitles_download_count, r.downloads, r.downloads))
+                    if (r.fromTrusted) add(stringResource(com.iptv.tv.R.string.player_subtitles_trusted))
+                    if (r.hearingImpaired) add(stringResource(com.iptv.tv.R.string.player_subtitles_sdh))
+                    if (r.aiTranslated) add(stringResource(com.iptv.tv.R.string.player_subtitles_ai))
+                    if (r.downloads > 0) add(pluralStringResource(com.iptv.tv.R.plurals.player_subtitles_download_count, r.downloads, r.downloads))
                 }
-                val separator = stringResource(tv.own.owntv.R.string.player_subtitles_tags_separator)
+                val separator = stringResource(com.iptv.tv.R.string.player_subtitles_tags_separator)
                 tv.own.owntv.ui.stage.StagePopupOption(
-                    title = r.languageName ?: r.language ?: stringResource(tv.own.owntv.R.string.player_subtitles_subtitle),
-                    subtitle = r.releaseName ?: stringResource(tv.own.owntv.R.string.player_subtitles_subtitle),
+                    title = r.languageName ?: r.language ?: stringResource(com.iptv.tv.R.string.player_subtitles_subtitle),
+                    subtitle = r.releaseName ?: stringResource(com.iptv.tv.R.string.player_subtitles_subtitle),
                     onClick = { onSelect(r) },
                     enabled = applyingFileId == null,
                     modifier = if (r == results.first()) Modifier.focusRequester(firstFocus) else Modifier,
@@ -179,9 +179,9 @@ private fun ResultsList(
             }
         }
         ButtonRow {
-            tv.own.owntv.ui.stage.StagePopupButton(stringResource(tv.own.owntv.R.string.player_subtitles_edit_search), onClick = onEdit, primary = false)
-            onShowAll?.let { tv.own.owntv.ui.stage.StagePopupButton(stringResource(tv.own.owntv.R.string.player_subtitles_all_languages), onClick = it, primary = false) }
-            tv.own.owntv.ui.stage.StagePopupButton(stringResource(tv.own.owntv.R.string.settings_close), onClick = onClose, primary = false)
+            tv.own.owntv.ui.stage.StagePopupButton(stringResource(com.iptv.tv.R.string.player_subtitles_edit_search), onClick = onEdit, primary = false)
+            onShowAll?.let { tv.own.owntv.ui.stage.StagePopupButton(stringResource(com.iptv.tv.R.string.player_subtitles_all_languages), onClick = it, primary = false) }
+            tv.own.owntv.ui.stage.StagePopupButton(stringResource(com.iptv.tv.R.string.settings_close), onClick = onClose, primary = false)
         }
     }
 }
@@ -198,17 +198,17 @@ private fun EditSearchField(initial: String, onSubmit: (String) -> Unit, onCance
     val fieldFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) { runCatching { fieldFocus.requestFocus() } }
     Column {
-        tv.own.owntv.ui.stage.StagePopupLabel(stringResource(tv.own.owntv.R.string.player_subtitles_edit_search).uppercase())
+        tv.own.owntv.ui.stage.StagePopupLabel(stringResource(com.iptv.tv.R.string.player_subtitles_edit_search).uppercase())
         tv.own.owntv.features.settings.StageFieldRow(
             icon = tv.own.owntv.ui.components.OwnTVIcon.SEARCH,
-            label = stringResource(tv.own.owntv.R.string.player_subtitles_title_label),
+            label = stringResource(com.iptv.tv.R.string.player_subtitles_title_label),
             value = value,
             onValueChange = { value = it },
             modifier = Modifier.fillMaxWidth().focusRequester(fieldFocus),
         )
         ButtonRow {
-            tv.own.owntv.ui.stage.StagePopupButton(stringResource(tv.own.owntv.R.string.common_cancel), onClick = onCancel, primary = false)
-            tv.own.owntv.ui.stage.StagePopupButton(stringResource(tv.own.owntv.R.string.player_subtitles_search), onClick = { onSubmit(value.trim()) })
+            tv.own.owntv.ui.stage.StagePopupButton(stringResource(com.iptv.tv.R.string.common_cancel), onClick = onCancel, primary = false)
+            tv.own.owntv.ui.stage.StagePopupButton(stringResource(com.iptv.tv.R.string.player_subtitles_search), onClick = { onSubmit(value.trim()) })
         }
     }
 }

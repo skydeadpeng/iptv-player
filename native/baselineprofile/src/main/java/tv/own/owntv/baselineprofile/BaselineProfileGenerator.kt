@@ -116,7 +116,11 @@ class BaselineProfileGenerator {
     }
 
     private companion object {
-        const val PACKAGE = "tv.own.owntv"
+        // Task 11: the app under test is installed as com.iptv.native now (see
+        // app/build.gradle.kts — the applicationId). This constant drives the macrobenchmark's
+        // target package, so it has to follow the applicationId or the benchmark launches
+        // nothing and the recording silently produces an empty profile.
+        const val PACKAGE = "com.iptv.native"
         const val NAV_ITEMS = 6
         const val SCROLL_STEPS = 8
         const val SETTLE_MS = 350L

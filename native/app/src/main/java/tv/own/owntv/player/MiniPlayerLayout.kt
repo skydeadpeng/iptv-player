@@ -3,7 +3,7 @@ package tv.own.owntv.player
 import androidx.annotation.StringRes
 import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.player.MiniPlayerPosition
 
 /** Where on screen each docking spot puts the mini-player window. */

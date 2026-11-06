@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Task 11 (brand customisation): overrides the core AAR's mipmap-anydpi-v26/owntv_icon_olive_cream.xml.
+     An app-module resource wins over a library resource with the same name, so the launcher
+     entry is rebranded without touching core. Same geometry as core's adaptive icon (background
+     + foreground + monochrome), with the brand's own colours and glyph. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/iptv_icon_bg_olive_cream" />
+    <foreground android:drawable="@drawable/iptv_icon_foreground" />
+    <monochrome android:drawable="@drawable/iptv_icon_monochrome" />
+</adaptive-icon>

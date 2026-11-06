@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.settings.SettingHelp
 import tv.own.owntv.features.settings.SettingValue
 import tv.own.owntv.features.settings.StageFullPage

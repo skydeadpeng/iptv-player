@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /** Compact, non-focusable source label used only when a section has multiple active playlists. */
 @Composable

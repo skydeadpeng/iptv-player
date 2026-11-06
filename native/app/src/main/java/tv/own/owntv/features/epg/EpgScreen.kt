@@ -60,7 +60,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.live.LiveKey

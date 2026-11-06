@@ -41,7 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.tv.material3.Text
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
-import tv.own.owntv.R
+import com.iptv.tv.R
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.em

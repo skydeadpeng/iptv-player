@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import coil3.compose.AsyncImage
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.player.PlayerControl
 import tv.own.owntv.core.player.ControlCluster
 import tv.own.owntv.ui.components.OwnTVIcon

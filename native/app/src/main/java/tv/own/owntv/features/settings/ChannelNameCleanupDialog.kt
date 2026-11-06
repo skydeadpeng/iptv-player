@@ -12,7 +12,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.stage.StageButton

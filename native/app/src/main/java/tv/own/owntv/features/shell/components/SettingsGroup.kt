@@ -1,6 +1,6 @@
 package tv.own.owntv.features.shell.components
 
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.settings.VideoGroup
 
 /**

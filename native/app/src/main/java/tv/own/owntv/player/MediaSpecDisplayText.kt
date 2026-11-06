@@ -2,7 +2,7 @@ package tv.own.owntv.player
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 @Composable
 internal fun MediaSpec.displayText(): String {

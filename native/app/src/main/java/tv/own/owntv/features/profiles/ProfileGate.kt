@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.ui.components.OwnTVAvatar
 import tv.own.owntv.ui.components.OwnTVIcon

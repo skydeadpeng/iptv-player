@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.autostart.AutoStart
 import tv.own.owntv.features.autostart.AutoStartOptions
 import tv.own.owntv.features.autostart.AutoStartPolicy

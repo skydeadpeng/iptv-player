@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import kotlinx.coroutines.delay
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.format.rememberBestDateFormatter
 import tv.own.owntv.ui.format.rememberSystemTimeFormatter
 

@@ -1,5 +1,7 @@
 package tv.own.owntv
 
+import com.iptv.tv.R
+
 // One launcher activity per icon colour, so each can carry its own icon, banner and launch-screen theme
 // (see the manifest and core's AppIconSwitcher). No code of their own: MainActivity is the app.
 class MainActivitySunflower : MainActivity()

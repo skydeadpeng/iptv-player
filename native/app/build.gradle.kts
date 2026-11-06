@@ -30,7 +30,26 @@ plugins {
 }
 
 android {
-    namespace = "tv.own.owntv"
+    // Task 11 (brand/package customisation).
+    //
+    // `applicationId` is the installed package — what the launcher, `pm list packages` and the
+    // release listing show. `namespace` is the package the R/BuildConfig classes are generated
+    // into, and it is the base the manifest resolves relative component names against.
+    //
+    // The brand wanted applicationId = com.iptv.native. That value is accepted here (the installed
+    // package is an opaque string on Android), but it CANNOT be used as the namespace: `native` is
+    // a Java keyword, so com.iptv.native is not a valid Java package name and AGP refuses it —
+    //
+    //     Namespace 'com.iptv.native' is not a valid Java package name as 'native' is a Java keyword.
+    //
+    // The namespace therefore gets the nearest valid Java package (com.iptv.tv), and every R /
+    // BuildConfig import in the app module points at it. The installed package is still exactly
+    // com.iptv.native, which is the identity the task asked for.
+    //
+    // The Kotlin sources deliberately stay in package `tv.own.owntv`: that package is shared with
+    // the core AAR on purpose (core's `tv.own.owntv.player` / `tv.own.owntv.core` packages resolve
+    // same-package symbols out of the app module — see the note in AndroidManifest.xml).
+    namespace = "com.iptv.tv"
     compileSdk {
         version = release(37)
     }
@@ -44,7 +63,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "tv.own.owntv"
+        applicationId = "com.iptv.native"
         minSdk = 26
         targetSdk = 36
         // CI injects these from the git tag (see .github/workflows/android.yml) so releases never

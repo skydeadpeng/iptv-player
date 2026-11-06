@@ -3,7 +3,7 @@ package tv.own.owntv.player
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.format.formatSystemTime
 
 /** Formats semantic metadata at the current Compose/resource boundary. */

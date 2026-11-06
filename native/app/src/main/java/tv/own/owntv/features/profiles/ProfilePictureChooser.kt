@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.settings.SettingsViewModel
 import tv.own.owntv.ui.components.BackgroundImageChooserDialog
 import tv.own.owntv.ui.components.BrowseMode

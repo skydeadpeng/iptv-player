@@ -46,7 +46,7 @@ import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.live.displayText
 import tv.own.owntv.player.ExoPreviewSurface

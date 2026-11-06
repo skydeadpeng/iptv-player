@@ -60,7 +60,7 @@ import androidx.paging.compose.itemKey
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.Key
 import tv.own.owntv.core.customize.CustomizeKeys

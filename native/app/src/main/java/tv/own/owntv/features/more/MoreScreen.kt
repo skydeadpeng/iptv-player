@@ -49,8 +49,8 @@ import androidx.tv.material3.Text
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.BuildConfig
-import tv.own.owntv.R
+import com.iptv.tv.BuildConfig
+import com.iptv.tv.R
 import tv.own.owntv.features.profiles.PinPrompt
 import tv.own.owntv.features.settings.BackupScreen
 import tv.own.owntv.features.settings.DeveloperScreen

@@ -95,7 +95,7 @@ import kotlinx.coroutines.launch
 import tv.own.owntv.features.live.LiveRailItem
 import tv.own.owntv.features.live.displayLabel
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.customize.CustomizeKeys
 import tv.own.owntv.core.database.entity.ContentOrderEntity
 import tv.own.owntv.core.database.entity.MovieEntity

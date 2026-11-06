@@ -1,7 +1,7 @@
 package tv.own.owntv.features.shell.components
 
 import androidx.compose.runtime.Composable
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /**
  * Shown at launch when a backup restore was interrupted. A restore spans the database and

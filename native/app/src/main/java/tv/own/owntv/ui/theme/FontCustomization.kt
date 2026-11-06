@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.theme.AppFontFamily
 
 @OptIn(androidx.compose.ui.text.ExperimentalTextApi::class)

@@ -1,6 +1,6 @@
 package tv.own.owntv.features.settings
 
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.SettingsRepository.NavSize
 import tv.own.owntv.core.settings.SettingsRepository.NavStyle
 

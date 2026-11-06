@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.features.profiles.ProfileEditorDialog
 import tv.own.owntv.features.profiles.ProfileGateSessionViewModel

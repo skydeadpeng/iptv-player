@@ -64,7 +64,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.live.LiveKey
 import tv.own.owntv.core.metadata.CastMember
 import tv.own.owntv.core.metadata.HeadlineTitle

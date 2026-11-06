@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import org.koin.compose.koinInject
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.recording.RecordingActivityTracker
 import tv.own.owntv.core.settings.SettingsRepository
 import tv.own.owntv.core.theme.AnimationLevel

@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.tv.material3.Text
 import kotlinx.coroutines.delay
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.core.util.FriendlySyncFailure
 import tv.own.owntv.core.util.classifySyncFailure

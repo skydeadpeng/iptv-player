@@ -4,7 +4,7 @@ import android.text.format.Formatter
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.update.UpdateManager
 
 @Composable

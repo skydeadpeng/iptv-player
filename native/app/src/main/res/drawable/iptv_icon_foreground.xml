@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Task 11 (brand customisation): the launcher glyph.
+     Core ships its own flip-card mark (mipmap/owntv_icon_*_foreground.png, nine PNGs) inside the
+     core AAR; an app-module resource with the same name wins over the library one, so declaring
+     the nine mipmap-anydpi-v26/owntv_icon_*.xml files here re-brands the launcher without
+     touching core. This is the replacement artwork: a screen outline with a play triangle.
+     Adaptive-icon foregrounds are 108dp with a 66dp safe circle in the middle, so the glyph
+     stays inside x 28..80 / y 40..68. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Screen outline -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M33,40 L75,40 A5,5 0 0 1 80,45 L80,63 A5,5 0 0 1 75,68 L33,68 A5,5 0 0 1 28,63 L28,45 A5,5 0 0 1 33,40 Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="5" />
+
+    <!-- Play triangle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M49,46 L49,61 L62,53.5 Z" />
+</vector>

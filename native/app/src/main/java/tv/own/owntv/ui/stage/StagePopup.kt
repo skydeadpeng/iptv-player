@@ -118,7 +118,7 @@ fun StageConfirm(
     confirm: String,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
-    cancel: String = androidx.compose.ui.res.stringResource(tv.own.owntv.R.string.common_cancel),
+    cancel: String = androidx.compose.ui.res.stringResource(com.iptv.tv.R.string.common_cancel),
     focusCancel: Boolean = false,
     eyebrow: String? = LocalPopupEyebrow.current,
     width: Dp = 760.mpx,
@@ -143,7 +143,7 @@ fun StageNotice(
     title: String,
     body: String?,
     onDismiss: () -> Unit,
-    ok: String = androidx.compose.ui.res.stringResource(tv.own.owntv.R.string.common_ok),
+    ok: String = androidx.compose.ui.res.stringResource(com.iptv.tv.R.string.common_ok),
     eyebrow: String? = LocalPopupEyebrow.current,
 ) {
     val first = androidx.compose.runtime.remember { androidx.compose.ui.focus.FocusRequester() }

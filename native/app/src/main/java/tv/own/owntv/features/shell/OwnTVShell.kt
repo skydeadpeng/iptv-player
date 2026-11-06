@@ -48,7 +48,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.launcher.LauncherDeepLink
 import tv.own.owntv.core.nav.MainSection
@@ -242,7 +242,7 @@ fun OwnTVShell(
     val metadataBudget = koinInject<tv.own.owntv.core.metadata.MetadataBudget>()
     val budgetRefusedAt by metadataBudget.refusedAt.collectAsStateWithLifecycle()
     var budgetNoticeShown by remember { mutableStateOf(false) }
-    val budgetNotice = androidx.compose.ui.res.stringResource(tv.own.owntv.R.string.settings_metadata_limit_reached)
+    val budgetNotice = androidx.compose.ui.res.stringResource(com.iptv.tv.R.string.settings_metadata_limit_reached)
     LaunchedEffect(budgetRefusedAt) {
         if (budgetRefusedAt > 0L && !budgetNoticeShown) {
             budgetNoticeShown = true
@@ -485,7 +485,7 @@ fun OwnTVShell(
     // Per-profile startup action runs once when the authenticated shell first appears. With one unlocked
     // profile that is immediately; profile/PIN gates keep the shell out of composition until authorized.
     val resumeSettings = koinInject<tv.own.owntv.core.settings.SettingsRepository>()
-    val startupChannelUnavailable = androidx.compose.ui.res.stringResource(tv.own.owntv.R.string.settings_startup_channel_unavailable)
+    val startupChannelUnavailable = androidx.compose.ui.res.stringResource(com.iptv.tv.R.string.settings_startup_channel_unavailable)
     LaunchedEffect(Unit) {
         if (playerMode != PlayerMode.NONE) { onStartupSettled(); return@LaunchedEffect }
         val pid = resumeSettings.activeProfileId.first()

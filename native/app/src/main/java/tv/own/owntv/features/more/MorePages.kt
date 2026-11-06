@@ -59,8 +59,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.compose.koinInject
-import tv.own.owntv.BuildConfig
-import tv.own.owntv.R
+import com.iptv.tv.BuildConfig
+import com.iptv.tv.R
 import tv.own.owntv.core.i18n.SupportedLocales
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.update.UpdateManager

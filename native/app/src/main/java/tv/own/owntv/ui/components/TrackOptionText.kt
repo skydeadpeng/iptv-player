@@ -3,7 +3,7 @@ package tv.own.owntv.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.player.TrackLabelKind
 import tv.own.owntv.player.TrackOption
 import java.util.Locale

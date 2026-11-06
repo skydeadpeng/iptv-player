@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.stage.StageFocus
 import tv.own.owntv.ui.stage.StageSurface
 import tv.own.owntv.ui.components.OwnTVIcon

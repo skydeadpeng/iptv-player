@@ -34,7 +34,7 @@ import androidx.tv.material3.Text
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
 import tv.own.owntv.ui.components.longPressMenuGuard
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.ui.theme.stageText
 import tv.own.owntv.ui.theme.stageAccent

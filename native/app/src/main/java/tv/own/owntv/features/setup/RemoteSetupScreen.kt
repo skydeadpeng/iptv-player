@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.em
 import androidx.tv.material3.Text
 import kotlinx.coroutines.flow.Flow
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.companion.CompanionLink
 import tv.own.owntv.core.companion.CompanionPayload
 import tv.own.owntv.core.companion.CompanionServerState

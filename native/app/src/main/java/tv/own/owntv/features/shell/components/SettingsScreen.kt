@@ -70,7 +70,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.customize.CustomizeScreen
 import tv.own.owntv.core.i18n.SupportedLocales
 import tv.own.owntv.core.player.SurroundMode
@@ -769,7 +769,7 @@ fun SettingsScreen(
         RootRow(
             "check_updates", TileTone.PRIMARY, OwnTVIcon.REFRESH,
             title = stringResource(R.string.settings_check_updates), desc = stringResource(R.string.settings_check_updates_description),
-            chip = "v${tv.own.owntv.BuildConfig.VERSION_NAME}",
+            chip = "v${com.iptv.tv.BuildConfig.VERSION_NAME}",
             focus = updateRowFocus,
             onClick = { saveScroll(); dialogReturn = updateRowFocus; showUpdate = true },
         ),
@@ -1060,7 +1060,7 @@ fun SettingsScreen(
                 chip = startupLabel(startupMode)) { saveScroll(); dialogReturn = searchFieldFocus; showStartup = true },
             *autoStartSearchEntries(autoStart).toTypedArray(),
             SettingsSearchEntry(stringResource(R.string.settings_group_app), stringResource(R.string.settings_check_updates), stringResource(R.string.settings_search_keywords_updates), OwnTVIcon.REFRESH, TileTone.PRIMARY,
-                chip = "v${tv.own.owntv.BuildConfig.VERSION_NAME}") { saveScroll(); dialogReturn = searchFieldFocus; showUpdate = true },
+                chip = "v${com.iptv.tv.BuildConfig.VERSION_NAME}") { saveScroll(); dialogReturn = searchFieldFocus; showUpdate = true },
             SettingsSearchEntry(stringResource(R.string.settings_group_app), stringResource(R.string.settings_update_startup), stringResource(R.string.settings_search_keywords_update_auto), OwnTVIcon.REFRESH, TileTone.SECONDARY,
                 chip = if (updateCheckOnStart) stringResource(R.string.common_on) else stringResource(R.string.common_off), chipTone = if (updateCheckOnStart) TileTone.PRIMARY else TileTone.SECONDARY, showChevron = false) { settingsVm.setUpdateCheckOnStart(!updateCheckOnStart) },
         )

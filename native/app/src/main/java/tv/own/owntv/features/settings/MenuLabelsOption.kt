@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.SettingsRepository.NavSize
 import tv.own.owntv.core.settings.SettingsRepository.NavStyle
 import tv.own.owntv.ui.components.OwnTVIcon

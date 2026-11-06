@@ -21,7 +21,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.core.epg.EpgSource
 import tv.own.owntv.ui.components.DayStepperDialog

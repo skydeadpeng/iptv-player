@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.ui.findActivity
 import kotlin.math.roundToInt
 

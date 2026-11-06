@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.stage.StageSearchField
 import tv.own.owntv.ui.stage.StageTool

@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.customize.CategoryRestorePlan
 import tv.own.owntv.core.customize.categoryRestoreSummary
 import tv.own.owntv.core.live.LiveKey

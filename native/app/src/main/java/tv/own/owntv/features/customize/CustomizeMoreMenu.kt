@@ -2,7 +2,7 @@ package tv.own.owntv.features.customize
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /** The entries of the Customize screen's ⋯ menu, as (key, label) pairs. */
 @Composable

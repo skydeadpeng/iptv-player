@@ -41,7 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import coil3.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.theme.BackgroundConfig
 import tv.own.owntv.core.theme.BackgroundStyle
 import tv.own.owntv.core.theme.PictureLook
@@ -196,7 +196,7 @@ internal fun GlassBackgroundPage(
             help = SettingHelp(opacityTitle + dotSeparator() + previewTitle, glassHelp, hints = stepHints, extra = preview),
         )
 
-        val resetTitle = stringResource(tv.own.owntv.R.string.common_reset)
+        val resetTitle = stringResource(com.iptv.tv.R.string.common_reset)
         val resetLine = stringResource(R.string.settings_line_glass_reset, stringResource(R.string.common_percent, tv.own.owntv.core.settings.SettingsRepository.GLASS_ALPHA_DEFAULT_PCT))
         StageSettingRow(
             icon = OwnTVIcon.REFRESH,

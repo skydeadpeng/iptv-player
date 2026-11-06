@@ -1,6 +1,6 @@
 package tv.own.owntv.features.settings
 
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /*
  * The words of each Settings row on a Stage page, by row key: root rows by their own key

@@ -6,19 +6,56 @@
 
 ---
 
-## 1. 包名 / applicationId（Task 11 必改）
+## 1. 包名 / applicationId（Task 11 已改）
 
 | 项 | 值 | 位置 |
 |---|---|---|
-| `applicationId` | `tv.own.owntv` | `native/app/build.gradle.kts` → `defaultConfig { applicationId = "tv.own.owntv" }` |
-| `namespace` | `tv.own.owntv` | 同上，`android { namespace = "tv.own.owntv" }` |
-| Kotlin 根包 | `tv.own.owntv` | `native/app/src/main/java/tv/own/owntv/`（290 个 .kt） |
+| `applicationId` | **`com.iptv.native`** | `native/app/build.gradle.kts` → `defaultConfig { applicationId = "com.iptv.native" }` |
+| `namespace` | **`com.iptv.tv`** | 同上，`android { namespace = "com.iptv.tv" }` |
+| Kotlin 根包 | `tv.own.owntv`（**刻意不改**，见下） | `native/app/src/main/java/tv/own/owntv/`（290 个 .kt） |
 | minSdk / targetSdk / compileSdk | 26 / 36 / `release(37)` | `app/build.gradle.kts` |
 | versionCode / versionName | 本地构建固定 `99999` / `99.99.99`（CI 用 `VERSION_CODE`/`VERSION_NAME` 环境变量注入） | `app/build.gradle.kts` |
 | 启动 Activity | `tv.own.owntv.MainActivity`（`app/src/main/java/tv/own/owntv/MainActivity.kt`） | Manifest 里有 9 个 launcher activity（每个图标一个），`AppIconSwitcher` 保证只有一个 enabled |
 
-> Task 11 要改成 `com.iptv.native`（计划文档 §第二部分 Task 11）。
-> 改 `applicationId` 时**同时**要改 `namespace`，否则 Koin/Room 的生成包名与 Manifest 不一致。
+> ### ⚠️ `com.iptv.native` 不能当 `namespace`（Task 11 实测）
+>
+> `native` 是 **Java 关键字**，`com.iptv.native` 不是合法 Java 包名，AGP 直接拒绝：
+> ```
+> Namespace 'com.iptv.native' is not a valid Java package name as 'native' is a Java keyword.
+> ```
+> - `applicationId`（安装包名，只是字符串）**可以**是 `com.iptv.native` → 已按计划文档用它。
+> - `namespace`（R/BuildConfig 的生成包名，必须是合法 Java 包名）改为 **`com.iptv.tv`**。
+> - 因此 app 模块里所有 `import` 从 `tv.own.owntv.R` / `tv.own.owntv.BuildConfig`
+>   改成 **`com.iptv.tv.R` / `com.iptv.tv.BuildConfig`**（155 个 .kt）。
+>
+> **Kotlin 根包刻意留在 `tv.own.owntv`**（没有搬目录），三个原因：
+> 1. app 模块的 `tv.own.owntv.player` 与 `tv.own.owntv.core.i18n` **故意**与 core AAR 的
+>    `tv.own.owntv.player` / `tv.own.owntv.core` 同包 —— core 的 `PlaybackEngine`、`ZoomMode`、
+>    `MediaSpec`、`LocaleStore` 等 ~40 个符号就是靠「同包可见」解析的，没有 import。
+>    搬包名要补 ~40 条 import，还会让 app 的 `MediaSpec.displayText()` 与 core 的
+>    `StreamInfoValue.displayText()` 落到不同包、改变重载解析。
+> 2. `tools/i18n/hardcoded_baseline.txt` / `safe_literals.txt` **按文件相对路径**做键
+>    （`app/src/main/java/tv/own/owntv/...`），搬目录会让 i18n 门禁把全部基线判成「新增债务」，
+>    CI 的 `--base` 校验（基线只能变小）会直接红。
+> 3. Manifest 的相对类名（`.MainActivity`）按 `namespace` 解析，`namespace` 变成 `com.iptv.tv`
+>    后相对名会指向不存在的类 → Manifest 里 12 个组件名**全部改成全限定名**
+>    `tv.own.owntv.MainActivity` 等（`app/src/main/AndroidManifest.xml`）。
+>
+> 结果：安装包名 = `com.iptv.native`（与计划文档一致），
+> R/BuildConfig 包 = `com.iptv.tv`，源码包 = `tv.own.owntv`。
+>
+> > ⚠️ 换 `namespace` 会让 i18n 门禁炸一次：`safe_literals.txt` 里
+> > `'v${tv.own.owntv.BuildConfig.VERSION_NAME}'` 这条 technical 分类要跟着改名。
+> > 修法（用工具自带流程，不要手改清单）：
+> > ```bash
+> > cd native
+> > python3 tools/i18n/check_hardcoded_strings.py prune-safe
+> > python3 tools/i18n/check_hardcoded_strings.py classify-safe \
+> >     --path app/src/main/java/tv/own/owntv/features/shell/components/SettingsScreen.kt \
+> >     --text 'v${com.iptv.tv.BuildConfig.VERSION_NAME}' --category technical
+> > python3 tools/i18n/check_hardcoded_strings.py verify --bootstrap   # 58 baseline + 1423 safe
+> > ```
+
 
 ---
 
@@ -137,8 +174,8 @@ PlaybackEngines(player, livePreview, pool, heroPreview)  → 统一收口，Home
 | 文件 | 作用 |
 |---|---|
 | `features/setup/SetupWizard.kt` | 首次启动向导 |
-| `features/setup/AddSourceChooserScreen.kt` | 添加源的四选一入口：**Remote / Type it here / Import a backup / Existing** |
-| `features/setup/AddSourceScreen.kt` | 添加/编辑源表单，三种源类型分支（`SourceType.XTREAM` / `M3U` / `STALKER`），约 800 行 |
+| `features/setup/AddSourceChooserScreen.kt` | 添加源入口（**二选一**：**From your phone** / **Type it here**）。备份恢复在 Settings → Backup，链接已有源在向导另一处 —— 不是这里的选项 |
+| `features/setup/AddSourceScreen.kt` | 添加/编辑源表单，三种源类型分支（`SourceType.XTREAM` / `M3U` / `STALKER`），约 800 行。**M3U 分支里有「选本地文件」入口（`:552-561` + `:688-700`）** |
 | `features/setup/SetupViewModel.kt` | 导入逻辑入口：`startXtream()` / `startStalker()` / `startM3u()`、`runImport()`、`linkExisting()` |
 | `features/setup/RemoteSetupScreen.kt` | "用手机填表"（局域网 Web + 二维码 + 6 位 PIN） |
 | `features/setup/SetupFailureText.kt` | 导入失败文案 |
@@ -160,12 +197,37 @@ PlaybackEngines(player, livePreview, pool, heroPreview)  → 统一收口，Home
 | `tv.own.owntv.core.database` | Room 实体 + DAO（`SourceEntity`、`ChannelEntity`、`RecordingEntity`…） |
 | `tv.own.owntv.core.model` | `SourceType`（`M3U` / `XTREAM` / `STALKER`） |
 
-> **Task 11 Step 3 的风险点**：MVP 要求"URL 订阅 + 文件导入"。
-> URL 订阅 —— `SetupViewModel.startM3u(name, url, userAgent, epgUrl, autoRefresh, httpReferer)` 已具备。
-> 文件导入 —— core 侧只暴露了 `Import a backup`（备份包，不是 M3U 文件）。
-> **若确认本地 M3U 文件导入缺失，实现位置应在 `features/setup/AddSourceScreen.kt` 的文件选择入口
-> + `SetupViewModel` 里新增一条导入路径**，而不是改 core。
-> 动手前先用 `adb` 实测：Settings → 源管理 → Add Source → Import，看它能接受什么格式。
+> ### ✅ Task 11 Step 3 结论：MVP 的「URL 订阅 + 本地文件导入」**基座已全部具备，不是缺口**
+>
+> 之前这里写着「文件导入 —— core 侧只暴露了 `Import a backup`（备份包，不是 M3U 文件）」，
+> **这是错的**（写 LOCAL_NOTES 时把「添加源」的四选一入口记成了三选一，实际代码里本地 M3U
+> 入口一直都在）。Task 11 逐行核对如下：
+>
+> **URL 订阅** ✅
+> - `features/setup/AddSourceScreen.kt:441` → `SourceKind.M3U -> onStartM3u(name, m3uUrl, …)`
+> - `features/setup/SetupWizard.kt:180-182` → `vm.startM3u(importName!!, url, ua, epg, refresh, httpReferer = ref)`
+> - `features/setup/SetupViewModel.kt:144-145` → `importer.m3u(name, url, userAgent, epgUrl, autoRefresh, httpReferer)`
+> - core：`setup/SourceImporter.kt:240` `suspend fun m3u(name, url, …)` → `repository/SourceRepository.kt:52` `addM3uSource(...)`
+>
+> **本地 M3U 文件导入** ✅（app 层有入口，core 层有实现）
+> - app：`features/setup/AddSourceScreen.kt:552-561` —— M3U 分支里的「选本地文件」行（FOLDER 图标），
+>   `onClick = { showFileBrowser = true }`
+> - app：`features/setup/AddSourceScreen.kt:688-700` —— in-app `StorageBrowser`
+>   （`fileExtensions = setOf("m3u","m3u8")`，TV 上没有 SAF 时的替代品），
+>   `onPick = { file -> m3uUrl = file.absolutePath }`
+> - app：`features/setup/AddSourceScreen.kt:552` `val picked = … if (m3uUrl.startsWith("/")) File(m3uUrl).name`
+>   → UI 会显示已选文件名；`:432` `canTest` 对本地路径为 false（本地文件不联网测速）
+> - core：`sync/LocalPlaylistFile.kt:8-38` —— 专门读「设备上选的播放列表」：
+>   `/` 绝对路径 / `file://` / `content://` 三种地址
+> - core：`sync/M3uSyncer.kt:68-69` 判定 `isLocal`；`:458-462` 本地走 `localFile.open(…)`、远程走 `http.get(…)`，同一个 parser
+> - core：`setup/SourceImporter.kt:274` `requiresNetwork = !playlistUrl.isLocalPlaylistPath()`；`:350-351` `isLocalPlaylistPath()`
+>
+> Settings → 源管理 → Add source 走的是**同一个** `AddSourceScreen`
+> （`features/settings/ManageSourcesScreen.kt:174,225`），所以那里也能选本地 M3U。
+> 「Import a backup」是另一条路（`features/settings/BackupScreen.kt:372`，恢复 OwnTV 备份 JSON），
+> 与 M3U 文件无关。
+>
+> **结论：MVP 订阅源能力无缺口，本任务不需要动 core，也不需要新增导入路径。**
 
 ---
 
@@ -302,19 +364,33 @@ native/app/build/outputs/apk/x86_64/debug/app-x86_64-debug.apk       ← x86_64 
 
 ## 7. Task 11 定制清单（照着改的位置）
 
-| 要改的 | 改哪里 |
-|---|---|
-| applicationId / namespace | `app/build.gradle.kts`（`defaultConfig.applicationId` + `android.namespace`） |
-| 应用名 | 在 `app/src/main/res/values/strings.xml` 新增 `<string name="app_name">IPTV 直播</string>` 覆盖 core AAR 的同名资源 |
-| 启动图标 | 在 `app/src/main/res/` 新增 mipmap 资源，覆盖 `owntv_icon_*`；或改 `AndroidManifest.xml` 里 9 个 launcher activity 的 `android:icon` |
-| 源管理 UI 文案/布局 | `features/setup/AddSourceScreen.kt`、`features/setup/AddSourceChooserScreen.kt`、`features/settings/ManageSourcesScreen.kt` |
-| 本地 M3U 文件导入（若缺） | `features/setup/AddSourceScreen.kt` + `features/setup/SetupViewModel.kt`（core 侧不可改） |
-| 遥控器行为 | `features/shell/OwnTVShell.kt`、`player/PlayerHud.kt`、`player/PlayerChannelKeys.kt`、`ui/components/DpadLeftPress.kt` |
-| 硬编码文案 | 一律写进 `app/src/main/res/values/strings.xml`，否则 `verifyI18nLiterals` 会让构建失败 |
+| 要改的 | 改哪里 | Task 11 状态 |
+|---|---|---|
+| applicationId | `app/build.gradle.kts` → `defaultConfig.applicationId` | ✅ `com.iptv.native` |
+| namespace | `app/build.gradle.kts` → `android.namespace` | ✅ `com.iptv.tv`（`com.iptv.native` 是非法 Java 包名，见 §1） |
+| 应用名 | `app/src/main/res/values/strings.xml` 新增 `<string name="app_name" translatable="false">IPTV 直播</string>` | ✅ 已覆盖 core AAR 的 `app_name` |
+| 启动图标 | `app/src/main/res/mipmap-anydpi-v26/owntv_icon_*.xml`（9 个）覆盖 core 的同名 mipmap；字形 `app/src/main/res/drawable/iptv_icon_foreground.xml` + `iptv_icon_monochrome.xml`；配色 `values/colors.xml` 的 `iptv_icon_bg_*` | ✅ 9 个全覆盖 |
+| 源管理 UI 文案/布局 | `features/setup/AddSourceScreen.kt`、`features/setup/AddSourceChooserScreen.kt`、`features/settings/ManageSourcesScreen.kt` | 未动（订阅源能力已满足 MVP，见 §4.2） |
+| 本地 M3U 文件导入 | `features/setup/AddSourceScreen.kt` + `features/setup/SetupViewModel.kt` | **不缺**，基座已实现（见 §4.2） |
+| 遥控器行为 | `features/shell/OwnTVShell.kt`、`player/PlayerHud.kt`、`player/PlayerChannelKeys.kt`、`ui/components/DpadLeftPress.kt` | 不在 Task 11 范围 |
+| 硬编码文案 | 一律写进 `app/src/main/res/values/strings.xml`，否则 `verifyI18nLiterals` 会让构建失败 | — |
 
 ---
 
-## 8. 基线信息
+## 8. Task 11 遗留的 OwnTV 品牌素材（都在 core AAR 里，app 覆盖不了或没做）
+
+| 素材 | 在哪 | 影响 |
+|---|---|---|
+| 冷启动闪屏动画 `owntv_splash_<colour>.xml` / `owntv_splash_static_<colour>.xml` + 字标图 `owntv_splash_name_<colour>.png`（9 变体 × 5 密度） | core `res/drawable*` | 冷启动仍播 OwnTV 的翻卡动画并显示 OwnTV 字标。要换需要重新出 45 张位图 + 18 个矢量 |
+| TV 首页横幅 `owntv_banner_<colour>.png`（Manifest 的 `android:banner`） | core `res/drawable-*` | TV 桌面横幅仍是 OwnTV |
+| 应用内品牌图形 `owntv_mark_*.xml` / `owntv_wordmark_own|iv` | core `res/drawable` | app 内左上角的图形标记仍是 OwnTV 图形（**文字部分已经是「IPTV 直播」**，因为它取 `R.string.app_name`） |
+| core 文案 `Welcome to OwnTV` 等 | core `res/values/strings_*.xml` | 向导首屏标题等仍是 OwnTV 字样 |
+
+> 这些要改都得动 core（外部仓库）或重新出美术素材，属于**二期**。
+
+---
+
+## 9. 基线信息
 
 - 基座：<https://github.com/ahXN00/OwnTV>，GPL-3.0，clone `--depth 1`
 - 基座内核仓库（两个 AAR 的来源）：<https://github.com/ahXN00/OwnTV_Core>

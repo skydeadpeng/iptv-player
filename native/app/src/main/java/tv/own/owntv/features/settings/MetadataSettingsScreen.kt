@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.metadata.MetadataConfig
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.theme.StageColors
@@ -271,7 +271,7 @@ fun MetadataSettingsScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
         // TMDB attribution — logo + line, required by TMDB's API terms.
         Column(Modifier.padding(start = 22.mpx, top = 28.mpx)) {
             androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(tv.own.owntv.R.drawable.ic_tmdb_logo),
+                painter = androidx.compose.ui.res.painterResource(com.iptv.tv.R.drawable.ic_tmdb_logo),
                 contentDescription = stringResource(R.string.settings_metadata),
             )
             Text(

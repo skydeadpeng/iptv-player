@@ -33,7 +33,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.features.settings.StageFullPage

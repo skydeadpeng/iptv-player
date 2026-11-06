@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Task 11 (brand customisation): the monochrome (themed-icon) layer of the launcher glyph.
+     Themed icons are tinted by the launcher, so the artwork has to be a flat silhouette —
+     the system colours it and only the shape survives. Same geometry as
+     drawable/iptv_icon_foreground.xml, filled solid instead of stroked: the screen body and
+     the play triangle are one path filled with the even-odd rule, so the triangle reads as
+     a hole at whatever tint the launcher picks. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Screen body with the play triangle cut out of it -->
+    <path
+        android:fillColor="#000000"
+        android:fillType="evenOdd"
+        android:pathData="M33,37 L75,37 A6,6 0 0 1 81,43 L81,65 A6,6 0 0 1 75,71 L33,71 A6,6 0 0 1 27,65 L27,43 A6,6 0 0 1 33,37 Z M48,45 L48,63 L64,54 Z" />
+</vector>

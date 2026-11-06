@@ -8,7 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.theme.AnimationLevel
 
 /** The user-facing label for each animation level. */

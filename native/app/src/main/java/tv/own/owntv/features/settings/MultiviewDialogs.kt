@@ -2,7 +2,7 @@ package tv.own.owntv.features.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.live.MAX_MULTIVIEW_TILES
 import tv.own.owntv.core.live.MIN_MULTIVIEW_TILES
 

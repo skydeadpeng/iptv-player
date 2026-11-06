@@ -2,7 +2,7 @@ package tv.own.owntv.features.shell.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.stage.StageConfirm
 import tv.own.owntv.ui.theme.mpx
 

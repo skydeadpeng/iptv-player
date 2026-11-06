@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import androidx.compose.ui.res.pluralStringResource
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.core.network.DohPresets

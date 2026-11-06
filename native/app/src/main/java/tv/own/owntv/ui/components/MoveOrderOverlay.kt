@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.features.settings.SettingsViewModel
 import tv.own.owntv.ui.stage.StageButton
 import tv.own.owntv.ui.stage.StagePopup

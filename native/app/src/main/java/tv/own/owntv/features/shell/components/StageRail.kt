@@ -59,7 +59,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.tv.material3.Text
 import kotlinx.coroutines.launch
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.nav.MainSection
 import tv.own.owntv.core.settings.SettingsRepository.NavLength
 import tv.own.owntv.core.settings.SettingsRepository.NavSize

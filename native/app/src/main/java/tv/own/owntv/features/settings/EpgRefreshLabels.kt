@@ -3,7 +3,7 @@ package tv.own.owntv.features.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.settings.EpgAutoRefresh
 import tv.own.owntv.core.settings.EpgRefresh
 

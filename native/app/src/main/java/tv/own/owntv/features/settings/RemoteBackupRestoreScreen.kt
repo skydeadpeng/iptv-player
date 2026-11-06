@@ -14,7 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.tv.material3.Text
 import kotlinx.coroutines.flow.Flow
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.companion.CompanionLink
 import tv.own.owntv.core.companion.CompanionServerState
 import java.io.File

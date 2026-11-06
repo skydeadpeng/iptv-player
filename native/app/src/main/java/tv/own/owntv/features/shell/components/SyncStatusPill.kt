@@ -26,7 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.delay
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.stage.stageGlass
 import tv.own.owntv.ui.theme.StageColors
 import tv.own.owntv.ui.theme.stageText

@@ -15,7 +15,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.database.dao.LinkedSubtitle
 import tv.own.owntv.ui.format.localizedInteger
 import tv.own.owntv.ui.stage.StageSegmented

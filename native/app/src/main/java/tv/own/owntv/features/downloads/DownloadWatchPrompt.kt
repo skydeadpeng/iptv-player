@@ -15,7 +15,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.koinInject
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.download.DownloadWatchGuard
 import tv.own.owntv.ui.stage.StageButton
 import tv.own.owntv.ui.stage.StagePopup

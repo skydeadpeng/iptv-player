@@ -51,8 +51,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.delay
-import tv.own.owntv.BuildConfig
-import tv.own.owntv.R
+import com.iptv.tv.BuildConfig
+import com.iptv.tv.R
 import tv.own.owntv.ui.stage.StageButton
 import tv.own.owntv.ui.stage.StageKeyHints
 import tv.own.owntv.ui.stage.StageProgress

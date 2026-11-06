@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.focus.FocusRequester
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.model.RecordingStatus
 import tv.own.owntv.core.database.entity.RecordingEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity

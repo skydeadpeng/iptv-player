@@ -2,7 +2,7 @@ package tv.own.owntv.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /**
  * Back on a live channel whose saved copy was kept while the user was away: continue from where

@@ -4,4 +4,21 @@
     <color name="owntv_window_bg">#040e0b</color>
     <!-- Adaptive launcher icon background. -->
     <color name="owntv_icon_bg">#050914</color>
+
+    <!-- Task 11 (brand customisation): launcher-icon background colours, one per icon variant.
+         The manifest declares nine launcher activities (one per variant) and core's
+         AppIconSwitcher keeps exactly one of them enabled, so the variant a user picks in
+         Settings › App icon has to stay visually distinct. Core ships its own palette for
+         these (owntv_icon_bg_*); these are the brand's own, declared here so the branding
+         does not depend on the core AAR's generated palette. All nine are dark enough for the
+         light glyph in drawable/iptv_icon_foreground.xml to read clearly. -->
+    <color name="iptv_icon_bg_petrol">#146B69</color>
+    <color name="iptv_icon_bg_sunflower">#C08A12</color>
+    <color name="iptv_icon_bg_cobalt">#2F5FD0</color>
+    <color name="iptv_icon_bg_tomato">#C4453A</color>
+    <color name="iptv_icon_bg_board">#232A33</color>
+    <color name="iptv_icon_bg_eggshell">#2B3A46</color>
+    <color name="iptv_icon_bg_olive">#5C7A1E</color>
+    <color name="iptv_icon_bg_olive_cream">#8A8468</color>
+    <color name="iptv_icon_bg_pixel">#101B22</color>
 </resources>

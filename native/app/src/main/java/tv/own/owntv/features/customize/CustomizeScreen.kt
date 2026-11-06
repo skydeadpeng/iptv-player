@@ -35,7 +35,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.features.settings.StageFullPage
 import tv.own.owntv.features.settings.StageSettingRow

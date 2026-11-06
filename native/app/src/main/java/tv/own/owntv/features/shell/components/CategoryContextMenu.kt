@@ -69,19 +69,19 @@ fun CategoryContextMenu(
                 tv.own.owntv.ui.stage.StageMenuHeader(title = categoryName, subtitle = null)
                 if (canMove) {
                     tv.own.owntv.ui.stage.StageMenuItem(
-                        stringResource(tv.own.owntv.R.string.content_move), onClick = onMove,
+                        stringResource(com.iptv.tv.R.string.content_move), onClick = onMove,
                         icon = OwnTVIcon.MOVE, modifier = Modifier.focusRequester(focus),
                     )
                 }
                 if (canHide) {
                     tv.own.owntv.ui.stage.StageMenuItem(
-                        stringResource(tv.own.owntv.R.string.common_hide), onClick = onHide,
+                        stringResource(com.iptv.tv.R.string.common_hide), onClick = onHide,
                         icon = OwnTVIcon.EYE_OFF, modifier = if (!canMove) Modifier.focusRequester(focus) else Modifier,
                     )
                 }
                 if (locked != null) {
                     tv.own.owntv.ui.stage.StageMenuItem(
-                        stringResource(if (locked) tv.own.owntv.R.string.settings_customize_remove_lock else tv.own.owntv.R.string.content_category_lock),
+                        stringResource(if (locked) com.iptv.tv.R.string.settings_customize_remove_lock else com.iptv.tv.R.string.content_category_lock),
                         onClick = onToggleLock, icon = OwnTVIcon.LOCK,
                         modifier = if (!canMove && !canHide) Modifier.focusRequester(focus) else Modifier,
                     )
@@ -93,7 +93,7 @@ fun CategoryContextMenu(
                         modifier = if (!canMove && !canHide && locked == null) Modifier.focusRequester(focus) else Modifier,
                     )
                 }
-                tv.own.owntv.ui.stage.StageMenuItem(stringResource(tv.own.owntv.R.string.common_cancel), onClick = onDismiss, icon = OwnTVIcon.CLOSE)
+                tv.own.owntv.ui.stage.StageMenuItem(stringResource(com.iptv.tv.R.string.common_cancel), onClick = onDismiss, icon = OwnTVIcon.CLOSE)
             }
         }
     }
@@ -143,8 +143,8 @@ private fun RestoreConfirmPopup(
                 tv.own.owntv.ui.stage.StageMenuHeader(title = categoryName, subtitle = null)
                 Text(
                     stringResource(
-                        if (nothing) tv.own.owntv.R.string.content_category_restore_nothing
-                        else tv.own.owntv.R.string.content_category_restore_question,
+                        if (nothing) com.iptv.tv.R.string.content_category_restore_nothing
+                        else com.iptv.tv.R.string.content_category_restore_question,
                     ),
                     style = tv.own.owntv.ui.theme.stageText(18, 600),
                     color = tv.own.owntv.ui.theme.StageColors.MenuItemText,
@@ -168,12 +168,12 @@ private fun RestoreConfirmPopup(
                 // Restore is only offered once the lines are known and there is something to undo.
                 if (!lines.isNullOrEmpty()) {
                     tv.own.owntv.ui.stage.StageMenuItem(
-                        restoreLabel ?: stringResource(tv.own.owntv.R.string.common_reset), onClick = onRestore,
+                        restoreLabel ?: stringResource(com.iptv.tv.R.string.common_reset), onClick = onRestore,
                         icon = OwnTVIcon.REFRESH, modifier = Modifier.focusRequester(focus),
                     )
                 }
                 tv.own.owntv.ui.stage.StageMenuItem(
-                    stringResource(tv.own.owntv.R.string.common_cancel), onClick = onDismiss,
+                    stringResource(com.iptv.tv.R.string.common_cancel), onClick = onDismiss,
                     icon = OwnTVIcon.CLOSE,
                     modifier = if (lines.isNullOrEmpty()) Modifier.focusRequester(focus) else Modifier,
                 )

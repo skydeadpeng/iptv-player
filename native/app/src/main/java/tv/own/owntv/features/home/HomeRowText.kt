@@ -13,7 +13,7 @@ import androidx.tv.material3.Text
 import tv.own.owntv.ui.theme.StageColors
 import tv.own.owntv.ui.theme.mpx
 import tv.own.owntv.ui.theme.stageText
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.core.model.HomeLiveRowMode
 import tv.own.owntv.core.model.HomeRow
 

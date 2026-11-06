@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import org.koin.androidx.compose.koinViewModel
-import tv.own.owntv.R
+import com.iptv.tv.R
 import tv.own.owntv.ui.components.OwnTVIcon
 import tv.own.owntv.ui.theme.StageColors
 import tv.own.owntv.ui.theme.mpx
@@ -305,7 +305,7 @@ fun OpenSubtitlesAccountScreen(onBack: () -> Unit, modifier: Modifier = Modifier
         // OpenSubtitles attribution — logo + line, mirroring the TMDB credit in Metadata.
         Column(Modifier.padding(start = 22.mpx, top = 28.mpx)) {
             androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(tv.own.owntv.R.drawable.ic_opensubtitles_logo),
+                painter = androidx.compose.ui.res.painterResource(com.iptv.tv.R.drawable.ic_opensubtitles_logo),
                 contentDescription = stringResource(R.string.settings_open_subtitles),
             )
             Text(

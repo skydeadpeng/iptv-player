@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
-import tv.own.owntv.R
+import com.iptv.tv.R
 
 /**
  * Non-interactive technical readout for the current stream (codec, resolution, HDR, bitrate, decoder, audio,
