@@ -9,3 +9,6 @@ webview/android/build/
 webview/android/app/build/
 webview/android/.gradle/
 webview/web/node_modules/
+
+# Mimosa 扫描器历史数据（非源码）
+.mimosa/

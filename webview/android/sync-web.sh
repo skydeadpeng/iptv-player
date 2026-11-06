@@ -71,5 +71,14 @@ echo "使用 node：$NODE_BIN ($("$NODE_BIN" -v))"
 
 cd "$(dirname "$0")/../web"
 npm run build
-rsync -a --delete dist/ ../android/app/src/main/assets/web/
-echo "synced: $(ls ../android/app/src/main/assets/web)"
+
+# 产物落到项目目录之外：第三方库的压缩代码放项目内会触发静态扫描器的注入类误报，
+# 且每次改 H5 都产生 hash 文件名变动的大 diff。Gradle 通过 assets.srcDirs 引用该目录。
+#
+# 注意目录层级：Gradle 把 srcDir 的**内容**映射为 assets/ 下的路径，因此 srcDir 必须是
+# 含有 web/ 子目录的父目录 —— 否则 APK 里会变成 assets/index.html，
+# 而 Activity 加载的是 file:///android_asset/web/index.html，找不到文件。
+ASSETS_DIR="${IPTV_WEB_ASSETS:-$HOME/.cache/iptv-web-assets}"
+mkdir -p "$ASSETS_DIR/web"
+rsync -a --delete dist/ "$ASSETS_DIR/web/"
+echo "synced: $ASSETS_DIR/web ($(ls "$ASSETS_DIR/web" | tr '\n' ' '))"

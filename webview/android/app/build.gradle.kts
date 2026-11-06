@@ -29,6 +29,21 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    // H5 构建产物放在项目目录之外（默认 ~/.cache/iptv-web-assets），
+    // 由 webview/android/sync-web.sh 生成。放项目内有两个问题：
+    //   1) 产物是 hls.js/mpegts.js 等第三方库的压缩代码，会触发静态扫描器的注入类误报；
+    //   2) 每次改 H5 都产生 hash 文件名变动的大 diff。
+    // 可用 IPTV_WEB_ASSETS 环境变量覆盖路径。
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs(
+                providers.environmentVariable("IPTV_WEB_ASSETS")
+                    .orElse(System.getProperty("user.home") + "/.cache/iptv-web-assets")
+                    .get()
+            )
+        }
+    }
 }
 
 dependencies {
