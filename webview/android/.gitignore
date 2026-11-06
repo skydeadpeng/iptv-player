@@ -1,0 +1,11 @@
+# Gradle / Android 构建产物与本机配置（不入库）
+.gradle/
+build/
+app/build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.iml
+.idea/
+.DS_Store
