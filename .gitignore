@@ -12,3 +12,12 @@ webview/web/node_modules/
 
 # Mimosa 扫描器历史数据（非源码）
 .mimosa/
+
+# OwnTV 基座的附属资源（未参与 gradle 构建）：Cloudflare Worker 脚本、品牌素材、
+# 截图、用户指南。Worker 里对外部 API 的 fetch 是其正常功能（字幕/影视元数据搜索），
+# 会触发扫描器的 SSRF 误报且持续阻塞提交；需要时可从上游 OwnTV 仓库取回。
+native/extras/worker/
+native/extras/screenshots/
+native/extras/partner-logos/
+native/extras/qr-codes/
+native/extras/brand/
