@@ -1252,10 +1252,14 @@ class MainActivity : Activity() {
 
     // H5 发起文件选择 → 系统文件选择器 → 文本回传 JS
     private val pickFile = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri ?: return@registerForActivityResult
+        // 用户取消时 uri 为 null：必须回传 null，否则 H5 侧等满 120s 超时
+        if (uri == null) {
+            web.evaluateJavascript("window.__iptvFileReady(null)", null)
+            return@registerForActivityResult
+        }
         val text = contentResolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() } ?: ""
         val payload = JSONObject().apply {
-            put("key", pendingKey)
+            put("key", pendingKey.toString())   // 统一用字符串，与 H5 侧 key 归一化一致
             put("name", uri.lastPathSegment ?: "playlist.m3u")
             put("text", text)
         }
@@ -1297,21 +1301,23 @@ class MainActivity : Activity() {
 }
 ```
 
-配套说明（写入代码注释与 README）：Bridge 的 `pickM3uFile` 是异步的，H5 侧 Task 7 的 `fetchBridge.pickM3uFile()` 需配套等待 `window.__iptvFileReady(payload)` 回调（Promise 包裹，key 匹配）。在 `src/bridge/native.ts` 的 `pickM3uFile` 实现中补充：
+配套说明（写入代码注释与 README）：Bridge 的 `pickM3uFile` 是异步的，H5 侧 Task 7 已实现的 `src/bridge/native.ts` 中 `fetchBridge.pickM3uFile()` 配套等待 `window.__iptvFileReady(payload)` 回调（Promise 包裹，key 匹配）。
+
+**Task 7 已实现的最终版（本任务勿重复实现，直接对齐即可）**：
 
 ```ts
-// src/bridge/native.ts 中 pickM3uFile 改为：
-async pickM3uFile(): Promise<{ name: string; text: string } | null> {
-  if (!window.IptvBridge) return null;
-  const key = window.IptvBridge.pickM3uFile();
-  return new Promise((resolve) => {
-    (window as any).__iptvFileReady = (payload: { key: string; name: string; text: string }) => {
-      if (payload.key === key) resolve({ name: payload.name, text: payload.text });
-    };
-    setTimeout(() => resolve(null), 120000); // 用户取消/超时
-  });
-}
+// src/bridge/native.ts（已存在于仓库，Task 7 产出）
+// - IptvBridge.pickM3uFile(): string | number  —— 壳侧无参调用，返回值即 key
+// - __iptvFileReady(payload: { key: string | number; name: string | null; text: string | null } | null)
+// - key 匹配用 String(payload.key) 归一化（壳发数字 key 时也能匹配）
+// - payload 为 null 或 name/text 为 null → 按取消处理，resolve(null)
+// - 120s 超时 → resolve(null)
 ```
+
+壳侧对应契约（三条必须满足）：
+1. `pickM3uFile()` 无参，返回 key 字符串
+2. 回调 payload 为**单对象** `{key, name, text}`，key 用字符串
+3. 用户取消时必须回传 `window.__iptvFileReady(null)`（否则 H5 等满 120s）
 
 - [ ] **Step 3: 图标占位 + H5 产物同步脚本**
 
