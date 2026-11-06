@@ -7,6 +7,19 @@ import { createVirtualList, VirtualList } from './ui/virtualList';
 import { initControls } from './ui/controls';
 import { setupImportDialog } from './ui/importDialog';
 
+declare global {
+  interface Window {
+    /**
+     * H5 启动完成标记：main.ts 全部启动流程跑完后置 true。
+     * Android 壳的 onPageFinished 自检探针据此判断「页面真的跑起来了」——
+     * 只探 localStorage/bridge 会把「ES module 被 file:// CORS 拦掉 → 整页空白」误判成启动成功。
+     */
+    __iptvBooted?: boolean;
+    /** 启动异常信息（壳探针/日志用）；正常启动时不存在 */
+    __iptvBootError?: string;
+  }
+}
+
 const groupsEl = document.getElementById('groups')!;
 const channelsEl = document.getElementById('channels')!;
 const video = document.getElementById('video') as HTMLVideoElement;
@@ -57,24 +70,32 @@ function reload(): void {
   vl.setItems(filtered());
 }
 
-vl = createVirtualList(channelsEl, {
-  rowH: 48,
-  renderItem: (el, c) => {
-    el.textContent = `${store.loadFavorites().includes(c.url) ? '★ ' : ''}${c.name}`;
-    el.onclick = () => play(c);
-  },
-});
+try {
+  vl = createVirtualList(channelsEl, {
+    rowH: 48,
+    renderItem: (el, c) => {
+      el.textContent = `${store.loadFavorites().includes(c.url) ? '★ ' : ''}${c.name}`;
+      el.onclick = () => play(c);
+    },
+  });
 
-player.onFatal(msg => { document.title = `播放失败：${msg}`; });
+  player.onFatal(msg => { document.title = `播放失败：${msg}`; });
 
-setupImportDialog({
-  onImported: (text: string, name: string) => {
-    const channels = parseM3U(text);
-    if (channels.length === 0) return '解析出 0 个频道，请检查文件格式';
-    store.saveSource({ id: crypto.randomUUID(), name, importedAt: Date.now(), channels });
-    reload();
-    return null; // null = 成功
-  },
-});
+  setupImportDialog({
+    onImported: (text: string, name: string) => {
+      const channels = parseM3U(text);
+      if (channels.length === 0) return '解析出 0 个频道，请检查文件格式';
+      store.saveSource({ id: crypto.randomUUID(), name, importedAt: Date.now(), channels });
+      reload();
+      return null; // null = 成功
+    },
+  });
 
-reload();
+  reload();
+
+  // 启动标记：壳侧探针据此确认 H5 真的跑起来了（而非整页空白）
+  window.__iptvBooted = true;
+} catch (err) {
+  window.__iptvBootError = String(err);
+  console.error('[iptv] bootstrap failed:', err);
+}
