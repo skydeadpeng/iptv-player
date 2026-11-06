@@ -22,10 +22,15 @@ describe('controls', () => {
 
   it('收藏置顶 + 收藏切换', () => {
     const c = createControls(document.body, () => {});
+    c.setKeyword('');                     // 重置模块级 keyword（用例 1 残留 '湖南' 会缩小匹配集）
     c.toggleFavorite(chs[2]);
     const out = c.filter(chs);
     expect(out[0].name).toBe('湖南卫视');  // 收藏的排最前
     expect(c.favorites()).toEqual(['http://u/hn']);
+    // 对照鉴别：关键字过滤后，收藏的 CCTV-5 仍应置顶（真正检验 sort 置顶逻辑）
+    c.toggleFavorite(chs[1]);             // 收藏 CCTV-5
+    c.setKeyword('cctv');
+    expect(c.filter(chs).map(x => x.name)).toEqual(['CCTV-5', 'CCTV-1']);
   });
 
   it('键盘上下换台调用 play', () => {
