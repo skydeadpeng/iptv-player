@@ -53,4 +53,28 @@ describe('parseM3U', () => {
   it('空输入返回空数组', () => {
     expect(parseM3U('')).toEqual([]);
   });
+
+  it('group-title 属性值含逗号时按引号感知切分', () => {
+    const text = '#EXTINF:-1 tvg-id="cctv1" group-title="央视,卫视",CCTV-1 综合\nhttp://example.com/cctv1.m3u8';
+    const ch = parseM3U(text)[0];
+    expect(ch.group).toBe('央视,卫视');
+    expect(ch.name).toBe('CCTV-1 综合');
+    expect(ch.tvgId).toBe('cctv1');
+    expect(ch.url).toBe('http://example.com/cctv1.m3u8');
+  });
+
+  it('空显示名兜底为未知频道', () => {
+    const text = '#EXTINF:-1,\nhttp://example.com/e.m3u8';
+    const ch = parseM3U(text)[0];
+    expect(ch.name).toBe('未知频道');
+    expect(ch.url).toBe('http://example.com/e.m3u8');
+  });
+
+  it('显示名含逗号时取最后一个未加引号的逗号', () => {
+    const text = '#EXTINF:-1 group-title="央视",CCTV-1,综合\nhttp://example.com/n.m3u8';
+    const ch = parseM3U(text)[0];
+    expect(ch.name).toBe('综合');
+    expect(ch.group).toBe('央视');
+    expect(ch.url).toBe('http://example.com/n.m3u8');
+  });
 });
