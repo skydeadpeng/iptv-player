@@ -48,7 +48,7 @@ export function createPlayer(video: HTMLVideoElement, opts?: { timeoutMs?: numbe
           video.src = url; video.play().catch(() => {});
           return;
         }
-        if (!Hls.isSupported()) { fatalCb?.('浏览器不支持 HLS'); return; }
+        if (!Hls.isSupported()) { clearAll(); fatalCb?.('浏览器不支持 HLS'); return; }
         hls = new Hls({ manifestLoadingTimeOut: timeoutMs, fragLoadingTimeOut: timeoutMs });
         hls.on(Hls.Events.ERROR, (_e, data) => {
           if (data.fatal) { clearAll(); fatalCb?.(`HLS 致命错误: ${data.details}`); }
@@ -56,8 +56,10 @@ export function createPlayer(video: HTMLVideoElement, opts?: { timeoutMs?: numbe
         hls.loadSource(url);
         hls.attachMedia(video);
       } else {
-        if (!mpegts.isSupported()) { fatalCb?.('浏览器不支持 mpegts'); return; }
-        tsPlayer = mpegts.createPlayer({ type: (url.endsWith('.flv') ? 'flv' : 'mpegts'), url });
+        if (!mpegts.isSupported()) { clearAll(); fatalCb?.('浏览器不支持 mpegts'); return; }
+        // type 判定与 selectEngine 同源清洗（剥 ?/# 后小写），避免 b.flv?token=1 / b.FLV 被误建为 mpegts 类型
+        const clean = url.split(/[?#]/)[0].toLowerCase();
+        tsPlayer = mpegts.createPlayer({ type: (clean.endsWith('.flv') ? 'flv' : 'mpegts'), url });
         tsPlayer.on(mpegts.Events.ERROR, (type) => {
           clearAll(); fatalCb?.(`MPEGTS 致命错误: ${type}`);
         });
