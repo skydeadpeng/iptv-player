@@ -82,4 +82,50 @@ describe('fetchBridge.pickM3uFile（壳契约：无参返回 key + 单对象 pay
     window.__iptvFileReady!({ key: 'k1', name: 'a.m3u', text: 'A' });
     await expect(p1).resolves.toEqual({ name: 'a.m3u', text: 'A' });
   });
+
+  // 回归：key 类型跨 JS/Java 桥不一致（壳 pickM3uFile() 返回 String，回调 JSONObject key 为数字）
+  it('壳返回字符串 key、回调 payload.key 为 number → 归一化后仍能匹配 resolve {name,text}', async () => {
+    installBridge('1754409600000');
+    const p = fetchBridge.pickM3uFile();
+    expect(window.__iptvFileReady).toBeTypeOf('function');
+    window.__iptvFileReady!({ key: 1754409600000, name: 'a.m3u', text: '#EXTM3U' });
+    await expect(p).resolves.toEqual({ name: 'a.m3u', text: '#EXTM3U' });
+    expect(window.__iptvFileReady).toBeUndefined();
+  });
+
+  it('壳返回 number key、回调 payload.key 为字符串 → 同样能匹配', async () => {
+    window.IptvBridge = { pickM3uFile: () => 1754409600000 };
+    const p = fetchBridge.pickM3uFile();
+    window.__iptvFileReady!({ key: '1754409600000', name: 'a.m3u', text: '#EXTM3U' });
+    await expect(p).resolves.toEqual({ name: 'a.m3u', text: '#EXTM3U' });
+  });
+
+  // 回归：壳可能改发 {key, name:null, text:null} 表示取消
+  it('null 载荷字段（{key,name:null,text:null}）→ 按取消处理 resolve null，不把 null 当文件', async () => {
+    installBridge('k1');
+    const p = fetchBridge.pickM3uFile();
+    window.__iptvFileReady!({ key: 'k1', name: null, text: null });
+    await expect(p).resolves.toBeNull();
+    expect(window.__iptvFileReady).toBeUndefined();
+  });
+
+  it('载荷字段部分为 null（name 有值、text 为 null）→ 同样按取消处理 resolve null', async () => {
+    installBridge('k1');
+    const p = fetchBridge.pickM3uFile();
+    window.__iptvFileReady!({ key: 'k1', name: 'a.m3u', text: null });
+    await expect(p).resolves.toBeNull();
+    expect(window.__iptvFileReady).toBeUndefined();
+  });
+
+  it('null 载荷且 key 不匹配 → 不 resolve 任何 pending（保持 key 匹配语义）', async () => {
+    installBridge('k1');
+    const p = fetchBridge.pickM3uFile();
+    let settled = false;
+    p.then(() => { settled = true; });
+    window.__iptvFileReady!({ key: 'other', name: null, text: null });
+    await new Promise(r => setTimeout(r, 0));
+    expect(settled).toBe(false);
+    window.__iptvFileReady!({ key: 'k1', name: 'a.m3u', text: '#EXTM3U' });
+    await expect(p).resolves.toEqual({ name: 'a.m3u', text: '#EXTM3U' });
+  });
 });
