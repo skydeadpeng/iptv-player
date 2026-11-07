@@ -24,14 +24,49 @@
 | EvilCult/iptv-m3u-maker ⭐2.9k | 404（已删源文件，停更） |
 | `iptv.vbskycn.com` / `live.zbds.org` 等域名 | 本网络环境 DNS 解析不可达（raw.githubusercontent.com 直连可用） |
 
-## 三、持续关注（未纳入）
+## 三、运营商专属源（组播 rtp://udp://，按省份/运营商）
 
-- `kimwang1978/collect-tv-txt`（多文件合并，bbxx.m3u 仅 6 频道——单文件太少）
-- `iptv-org/iptv` ⭐143k（全球频道，中文频道少且多为海外 CDN，境内播放质量差；后续做海外频道可加）
-- 汇总索引：`imDazui/Tvlist-awesome-m3u-m3u8` ⭐30k、`laoma528/awesome-zhuiju-free`（找新源的入口）
+**使用前提（重要）**：组播地址（`rtp://239.x.x.x` / `udp://@`）只在**对应运营商的宽带内网**有效，且需要网络侧支持之一：
+- 光猫/路由器开 IGMP Proxy/Snooping（软路由常见做法）
+- **udpxy** / [rtp2httpd](https://github.com/stackia/rtp2httpd) 把组播转成单播 `http://` 给 App 播（App 二期计划支持）
+- 部分地区运营商同时提供**内网单播**地址（http://），内网直连即可，无需组播
 
-## 四、使用建议
+公网环境**无法验证**这类源（我们的频道测速也不适用），换网络/换运营商即失效。
 
-1. **App 内置清单已按上表推荐源配置**（`webview/web/src/storage/autoStore.ts` 的 `BUILTIN_SOURCES` 与 `native/.../auto/AutoSourceManager.kt` 的 `BUILTIN_SOURCES`），启动自动获取后 App 会再做一轮频道级测速，死链自动剔除——**不必迷信源本身的"可用"宣称，以 App 内测速结果为准**。
-2. 运营商组播源（udp://、rtp://）需要 udpxy 转换，本期不支持（二期）。
+### 全国汇总（按省市组织，31+ 个文件）
+
+| 仓库 | 说明 |
+|---|---|
+| **[Phineario/China-IPTV-Multicast](https://github.com/Phineario/China-IPTV-Multicast)** | 全国各省市组播地址汇总（`m3u/`+`txt/`，按行政区划码命名：上海电信/浙江电信/广东电信/四川移动/黑龙江联通…），格式 `频道名,rtp://239.x.x.x:port` |
+
+### 省级精品仓库（带自动验证/更新）
+
+| 仓库 | 星数 | 覆盖 | 特点 |
+|---|---|---|---|
+| [wuwentao/bj-unicom-iptv](https://github.com/wuwentao/bj-unicom-iptv) | 721 | 北京联通 | 完整 M3U（EPG+台标），**每小时 CI 更新 + 自带连通性检查脚本** |
+| [shawze/IPTV](https://github.com/shawze/IPTV) | 156 | 江苏电信 | 组播地址共享 |
+| [nczyw/iptv](https://github.com/nczyw/iptv) | 130 | 江苏电信 | 最新组播地址 |
+| [babylife/China-ShangHai-IPTV-list](https://github.com/babylife/China-ShangHai-IPTV-list) | 125 | 上海联通 | 组播 + **时移回看**地址 |
+| [islercn/BeiJing-Unicom-IPTV-List](https://github.com/islercn/BeiJing-Unicom-IPTV-List) | 333 | 北京联通 | 每小时更新，不含非官方频道 |
+| [plsy1/iptv](https://github.com/plsy1/iptv) | 231 | 山东联通 | 播放列表 |
+| [lesca/jiangsu-iptv](https://github.com/lesca/jiangsu-iptv) | 125 | 江苏联通 | 组播 |
+| [supzhang/get_iptv_channels](https://github.com/supzhang/get_iptv_channels) | 72 | 电信（通用） | **抓取脚本**：自动获取本机所在网络的组播+回放地址 |
+| [VergilGao/Telecom-IPTV-Mock](https://github.com/VergilGao/Telecom-IPTV-Mock) | 63 | 长春电信 | 自动获取**组播+单播+节目单** |
+| [FishBossTca/CMCC-IPTV](https://github.com/FishBossTca/CMCC-IPTV) | 58 | 广东移动 | 抓取组播源+台标导出 m3u |
+| [wangkezun/bj-unicom-iptv](https://github.com/wangkezun/bj-unicom-iptv) | 14 | 北京联通 | 组播**改单播**方案 |
+| [chilinha/tv](https://github.com/chilinha/tv) | 133 | 天津联通/移动 | 组播源 |
+| [jllioo0/hbiptv](https://github.com/jllioo0/hbiptv) | 18 | 湖北电信 | 组播源 |
+| [weezheng/IPTV](https://github.com/weezheng/IPTV) | 8 | 成都电信 | 组播源 |
+
+### 找你自己所在运营商源的方法
+
+1. 先查上面的全国汇总库（Phineario）有没有你省市
+2. GitHub 搜索 `<省份> <运营商> IPTV`（如「河南移动 IPTV」——实测就有 CF012026/henan-mobile-iptv）
+3. **自抓最可靠**：参考 supzhang/get_iptv_channels 的抓取脚本，在你自己的光猫网络里抓取（抓到的地址 100% 匹配你的线路）
+4. 抓到后转成 M3U（组播地址写 `rtp://`）→ 若经 udpxy 转换，把 `rtp://239.x.x.x:port` 改写为 `http://<udpxy主机>:<端口>/rtp/239.x.x.x:port` 即可被 App 直接播放（二期原生支持）
+
+## 五、使用建议
+
+1. **公网源**：App 内置清单已按第一章推荐源配置（`webview/web/src/storage/autoStore.ts` 的 `BUILTIN_SOURCES` 与 `native/.../auto/AutoSourceManager.kt` 的 `BUILTIN_SOURCES`），启动自动获取后 App 会再做一轮频道级测速，死链自动剔除——**不必迷信源本身的"可用"宣称，以 App 内测速结果为准**。
+2. **运营商组播源**（第三章）：需要对应运营商网络 + udpxy/IGMP 支持；App 本期只支持 `http(s)://` 直播流，`rtp://` 的 udpxy 转换在二期。udpxy 转换后的 `http://<host>:<port>/rtp/...` 地址现在就能用（手动导入 M3U）。
 3. 源的可用性随时间大幅波动（如 YanG-1989 一周内从可用到全灭），建议保持多源 + 定期重测（App 内 24h 缓存自动过期）。
