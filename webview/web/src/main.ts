@@ -43,7 +43,8 @@ function allGroups(): string[] {
 function filtered(): Channel[] {
   const byGroup = currentGroup === '全部' ? allChannels : allChannels.filter(c => c.group === currentGroup);
   // controls 单例在 reload() 内初始化；首次 reload 前不会被调用
-  return initControls(document.body, applyFilter).filter(byGroup);
+  // 第三参 reload：自动源获取完成后整体刷新（频道/分组/缓存全部重算）
+  return initControls(document.body, applyFilter, reload).filter(byGroup);
 }
 
 /**

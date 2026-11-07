@@ -4,7 +4,7 @@ import { probeChannels, probeOne } from './probe';
 import { Channel } from '../types';
 
 /** 模拟真实 fetch 的延迟：signal abort 时 reject（AbortError），与浏览器行为一致 */
-function delayOrAbort(ms: number, signal?: AbortSignal): Promise<void> {
+function delayOrAbort(ms: number, signal?: AbortSignal | null): Promise<void> {
   return new Promise((resolve, reject) => {
     if (signal?.aborted) { reject(new DOMException('aborted', 'AbortError')); return; }
     const t = setTimeout(resolve, ms);
@@ -38,11 +38,9 @@ describe('probeOne（单频道测速）', () => {
     expect(r.latencyMs).toBeGreaterThanOrEqual(0);
   });
 
-  it('404 与网络错误 → 不可用', async () => {
+  it('404 → 不可用；网络错误 → 见 unknown 用例（浏览器语义已改为保守保留）', async () => {
     mockFetch(() => ({ status: 404 }));
     expect((await probeOne(ch('a', 'http://x/a'))).ok).toBe(false);
-    mockFetch(() => 'network-error');
-    expect((await probeOne(ch('b', 'http://x/b'))).ok).toBe(false);
   });
 
   it('.m3u8 响应体缺 #EXTM3U → 不可用（防伪 HLS）', async () => {
@@ -53,6 +51,24 @@ describe('probeOne（单频道测速）', () => {
   it('非 .m3u8 的 2xx 不检查 body', async () => {
     mockFetch(() => ({ status: 200, body: '' }));
     expect((await probeOne(ch('a', 'http://x/a.ts'))).ok).toBe(true);
+  });
+
+  it('浏览器内 TypeError → unknown（CORS 不可判定，保守保留）', async () => {
+    mockFetch(() => 'network-error');
+    const r = await probeOne(ch('a', 'http://x/a'));
+    expect(r.ok).toBe(true);
+    expect(r.unknown).toBe(true);
+    expect(r.latencyMs).toBe(-1);
+  });
+
+  it('壳内 TypeError → 确定性失败（hasNative）', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('net'); }));
+    Object.defineProperty(window, 'IptvBridge', { value: { pickM3uFile: () => 'k' }, configurable: true });
+    try {
+      expect((await probeOne(ch('a', 'http://x/a'))).ok).toBe(false);
+    } finally {
+      delete (window as { IptvBridge?: unknown }).IptvBridge;
+    }
   });
 
   it('5s 超时 → 不可用（fake timers）', async () => {

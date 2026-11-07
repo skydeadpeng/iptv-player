@@ -1,7 +1,17 @@
 // src/auto/probe.ts
 import { Channel } from '../types';
+import { fetchBridge } from '../bridge/native';
 
-export interface ProbeResult { ok: boolean; latencyMs: number }
+export interface ProbeResult {
+  ok: boolean;
+  latencyMs: number;
+  /**
+   * true = 结果未知（浏览器内 fetch 抛 TypeError：可能是 CORS 拦截也可能是真断网，
+   * 浏览器故意不区分）。unknown 频道保守保留、排后；仅在壳内（hasNative）才确定性判死。
+   * 明确失败（4xx/5xx、伪 HLS、壳内 TypeError）不算 unknown。
+   */
+  unknown?: boolean;
+}
 export type ProbeMap = Map<string, ProbeResult>;
 
 interface ProbeOpts {
@@ -36,8 +46,13 @@ export async function probeOne(ch: Channel, timeoutMs = DEFAULT_TIMEOUT_MS): Pro
       if (!head.includes('#EXTM3U')) return { ok: false, latencyMs };
     }
     return { ok: true, latencyMs };
-  } catch {
-    return { ok: false, latencyMs: Date.now() - t0 };
+  } catch (e) {
+    const aborted = e instanceof DOMException && e.name === 'AbortError';
+    if (aborted) return { ok: false, latencyMs: Date.now() - t0 };          // 超时：确定性失败
+    // TypeError：网络层失败。壳内（file:// 全权限）= 真断网；纯浏览器 = CORS 拦截或断网，无法区分。
+    return fetchBridge.hasNative()
+      ? { ok: false, latencyMs: Date.now() - t0 }
+      : { ok: true, latencyMs: -1, unknown: true };                          // 保守保留，排后
   } finally {
     clearTimeout(timer);
   }
@@ -62,7 +77,7 @@ export function probeChannels(
       const i = next++;
       if (i >= channels.length) return;
       const ch = channels[i];
-      results.set(ch.url, aborted ? { ok: false, latencyMs: 0 } : await probeOne(ch, timeoutMs));
+      results.set(ch.url, await probeOne(ch, timeoutMs));
       done++;
       opts.onProgress?.(done, channels.length);
     }

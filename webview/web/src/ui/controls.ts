@@ -2,6 +2,7 @@
 import { Channel } from '../types';
 import * as store from '../storage/store';
 import { showImportDialog } from './importDialog';
+import { showAutoDialog } from './autoDialog';
 
 export interface Controls {
   filter(chs: Channel[]): Channel[];
@@ -21,7 +22,7 @@ let idx = -1;
 let keyword = '';
 
 /** 装配顶栏与全局键盘；main.ts 调用一次并持有返回实例。 */
-export function createControls(root: HTMLElement, refilter: () => void): Controls {
+export function createControls(root: HTMLElement, refilter: () => void, onAutoDone?: () => void): Controls {
   const ctrl: Controls = {
     ratio: 'contain',
     filter(chs) {
@@ -63,7 +64,12 @@ export function createControls(root: HTMLElement, refilter: () => void): Control
   addBtn.id = 'btn-add-source';
   addBtn.textContent = '添加源';
   addBtn.onclick = () => showImportDialog();
-  bar.append(input, addBtn, ratioBtn);
+  // 「自动源」入口：内置公开源一键拉取+测速筛选（自动源设计 2026-11-07）
+  const autoBtn = document.createElement('button');
+  autoBtn.id = 'btn-auto-source';
+  autoBtn.textContent = '自动源';
+  autoBtn.onclick = () => showAutoDialog(() => (onAutoDone ?? refilter)());
+  bar.append(input, addBtn, autoBtn, ratioBtn);
   root.appendChild(bar);
 
   document.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -77,7 +83,7 @@ export function createControls(root: HTMLElement, refilter: () => void): Control
 
 /** 模块级单例；main.ts 的 reload() 里初始化。 */
 let singleton: Controls | null = null;
-export function initControls(root: HTMLElement, refilter: () => void): Controls {
-  return (singleton ??= createControls(root, refilter));
+export function initControls(root: HTMLElement, refilter: () => void, onAutoDone?: () => void): Controls {
+  return (singleton ??= createControls(root, refilter, onAutoDone));
 }
 export function currentControls(): Controls | null { return singleton; }

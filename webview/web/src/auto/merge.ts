@@ -41,16 +41,25 @@ export function dedupeByUrl(channels: Channel[]): Channel[] {
   return out;
 }
 
-/** 只保留测速通过的频道（未测到的视为不可用——abort 提前结束时不展示未知质量频道） */
+/** 只保留测速通过或结果未知的频道（剔除确定性失败；unknown=CORS 不可判定，保守保留） */
 export function filterOk(channels: Channel[], probe: ProbeMap): Channel[] {
-  return channels.filter(c => probe.get(c.url)?.ok === true);
+  return channels.filter(c => {
+    const r = probe.get(c.url);
+    return r !== undefined && (r.ok || r.unknown === true);
+  });
 }
 
-/** 同名频道保留测速延迟最小的一个（多源同台的冗余线路只留最快的） */
+/** 同名频道保留测速延迟最小的一个（多源同台的冗余线路只留最快的；unknown(-1) 排后） */
 export function pickFastestByName(channels: Channel[], probe: ProbeMap): Channel[] {
+  const rank = (url: string): number => {
+    const r = probe.get(url);
+    if (!r) return Number.MAX_SAFE_INTEGER;
+    if (r.unknown) return Number.MAX_SAFE_INTEGER - 1; // 已知延迟优先于未知
+    return r.ok ? r.latencyMs : Number.MAX_SAFE_INTEGER;
+  };
   const best = new Map<string, { ch: Channel; latency: number }>();
   for (const c of channels) {
-    const latency = probe.get(c.url)?.latencyMs ?? Number.MAX_SAFE_INTEGER;
+    const latency = rank(c.url);
     const cur = best.get(c.name);
     if (!cur || latency < cur.latency) best.set(c.name, { ch: c, latency });
   }
