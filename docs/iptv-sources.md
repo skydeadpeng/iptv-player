@@ -33,11 +33,15 @@
 
 公网环境**无法验证**这类源（我们的频道测速也不适用），换网络/换运营商即失效。
 
-### 全国汇总（按省市组织，31+ 个文件）
+### 全国性仓库
 
-| 仓库 | 说明 |
-|---|---|
-| **[Phineario/China-IPTV-Multicast](https://github.com/Phineario/China-IPTV-Multicast)** | 全国各省市组播地址汇总（`m3u/`+`txt/`，按行政区划码命名：上海电信/浙江电信/广东电信/四川移动/黑龙江联通…），格式 `频道名,rtp://239.x.x.x:port` |
+| 仓库 | 覆盖 | 格式 | 状态 |
+|---|---|---|---|
+| **[zqs1qiwan/laobaitv](https://github.com/zqs1qiwan/laobaitv)**（16⭐） | 电信/联通/移动 × 北京/贵州/四川/新疆/山东 | **udpxy 转换后的 http M3U**（`http://192.168.2.1:4022/udp/239.x.x.x`），带 EPG（epg.laobaitv.net）+ 台标 + 频道分组；配套教程站 [iptv.laobaitv.net](https://iptv.laobaitv.net/) 含 udpxy 部署命令 | 🟢 **活跃（2026-11 仍在更新）**，CI 自动维护 |
+| [Phineario/China-IPTV-Multicast](https://github.com/Phineario/China-IPTV-Multicast)（37⭐） | 14 省市电信/联通/移动组播（上海/浙江/广东/四川/河南…） | 裸组播 `rtp://239.x.x.x:port`（m3u + txt 双格式） | 🔴 **2023-09 停更**——组播网段相对稳定但可信度打折，用作对照参考 |
+
+> **laobaitv 的 M3U 可以直接被本 App 播放**（URL 是 http 单播）：前提是你路由器上跑着 udpxy（仓库 README 给了 OpenWrt 部署命令，默认 `192.168.2.1:4022`）。若你的 udpxy 地址不同，导入前把 M3U 里的 `192.168.2.1:4022` 文本替换成你的 udpxy 地址即可。raw 订阅地址形如
+> `https://raw.githubusercontent.com/zqs1qiwan/laobaitv/main/chinatelecom/sichuan/chengdu/main.m3u`
 
 ### 省级精品仓库（带自动验证/更新）
 
