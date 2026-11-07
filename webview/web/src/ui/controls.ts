@@ -68,7 +68,7 @@ export function createControls(root: HTMLElement, refilter: () => void, onAutoDo
   const autoBtn = document.createElement('button');
   autoBtn.id = 'btn-auto-source';
   autoBtn.textContent = '自动源';
-  autoBtn.onclick = () => showAutoDialog(() => (onAutoDone ?? refilter)());
+  autoBtn.onclick = () => showAutoDialog(() => currentAutoDone()?.() ?? refilter());
   bar.append(input, addBtn, autoBtn, ratioBtn);
   root.appendChild(bar);
 
@@ -81,9 +81,16 @@ export function createControls(root: HTMLElement, refilter: () => void, onAutoDo
   return ctrl;
 }
 
-/** 模块级单例；main.ts 的 reload() 里初始化。 */
+/**
+ * 模块级单例；main.ts 的 reload()/filtered() 里初始化。
+ * autoDone 单独存可变字段：单例首次创建时机（boot 时常无第三参）不该固化它，
+ * 否则自动源获取完成后永远只走 refilter（不重读频道数据），列表显示旧内容。
+ */
 let singleton: Controls | null = null;
+let autoDone: (() => void) | null = null;
 export function initControls(root: HTMLElement, refilter: () => void, onAutoDone?: () => void): Controls {
-  return (singleton ??= createControls(root, refilter, onAutoDone));
+  if (onAutoDone) autoDone = onAutoDone;
+  return (singleton ??= createControls(root, refilter));
 }
 export function currentControls(): Controls | null { return singleton; }
+function currentAutoDone(): (() => void) | null { return autoDone; }
