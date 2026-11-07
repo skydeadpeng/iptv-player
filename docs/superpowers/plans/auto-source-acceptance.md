@@ -34,6 +34,14 @@
 | 9 | 跨 profile 链接 | ✅ 代码 | 导入后 `linkAutoSourceToAllProfiles()` 补齐所有 profile 的链接（core 的 profile↔source 是多对多链接表） |
 | 10 | 完整 UI 链路 | ⚸ 部分 | 向导→主界面→频道显示的 UI 走查受 Compose 向导自动化限制；向导本身可用性已在 Task 12 验证 |
 
+## 模拟器壳内测试（CDP 驱动 WebView，2026-11-07 补测）
+
+| # | 项 | 结果 | 证据 |
+|---|---|---|---|
+| 1 | 壳内自动源全链路 | ✅ | 拉取(宿主清单 1554 去重) → 测速 245s 全量 → **可用 84/1554**；`probeUnknown=0`（壳内 hasNative 确定性判死语义生效）；IPv6 残留 0；UI 自动刷新 13 组/43 行 |
+| 2 | 壳内播放管线 | ✅ | 本地 HLS（ffmpeg testsrc）走 hls.js/MSE 引擎：readyState=4、320×180、currentTime 8.3s |
+| 3 | 外网视频频道起播 | ⚸ 环境 | 测速 ok 的外网频道 8s 内未出图：模拟器 NAT 带宽 ~30kbps（Task 12 HttpClient 日志 29kbps 实证），分片拉不动；宿主浏览器同代码秒开。非代码缺陷 |
+
 ## 环境限制（非代码缺陷）
 
 - **模拟器 DNS 污染**：模拟器内无法解析 GitHub/域名（宿主网络环境特性）。已用宿主静态 serve + IP 直连清单绕开完成全链路验证；真实设备网络正常时无此问题。
