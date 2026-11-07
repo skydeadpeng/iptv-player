@@ -186,6 +186,8 @@ class MainActivity : ComponentActivity() {
             WebView.setWebContentsDebuggingEnabled(true)
         }
         web.loadUrl("file:///android_asset/web/index.html")
+        // 自动更新：启动后台检查 GitHub Releases（无新版无副作用，重复触发无害）
+        UpdateChecker.checkAsync(this)
     }
 
     override fun onDestroy() {
