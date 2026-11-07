@@ -27,6 +27,10 @@ describe('runAutoFetch', () => {
     expect(r).not.toBeNull();
     expect(r!.ok).toBe(1);                          // B 断线被剔除
     expect(r!.total).toBe(2);
+    // 回归：测速结果必须在完成后写入缓存（曾因时序 bug 写成空对象）
+    const cache = autoStore.loadProbeCache();
+    expect(Object.keys(cache.results)).toContain('http://c/1');
+    expect(cache.results['http://c/1']).toMatchObject({ ok: true });
     const src = store.loadSources().find(s => s.id === 'auto')!;
     expect(src.channels.map(c => c.name)).toEqual(['A']);
   });

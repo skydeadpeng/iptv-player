@@ -56,13 +56,6 @@ export async function runAutoFetch(
       timeoutMs: 5000,
       onProgress: (done, total) => {
         if (done % 20 === 0 || done === total) onProgress({ phase: 'probing', detail: `测速 ${done}/${total}` });
-        if (done === total) {
-          // 测速结果写缓存（含历史条目与 unknown 标记，滑动刷新 at）
-          autoStore.saveProbeCache({
-            at: Date.now(),
-            results: Object.fromEntries([...probe.entries()].map(([u, e]) => [u, { ok: e.ok, latencyMs: e.latencyMs, unknown: e.unknown }])),
-          });
-        }
       },
     });
     abortProbing = ctrl.abort;
@@ -70,6 +63,11 @@ export async function runAutoFetch(
     abortProbing = null;
     if (aborted) return null;
     for (const [u, e] of fresh) probe.set(u, e);
+    // 测速结果写缓存（含历史条目与 unknown 标记）——必须在 fresh 合并进 probe 之后
+    autoStore.saveProbeCache({
+      at: Date.now(),
+      results: Object.fromEntries([...probe.entries()].map(([u, e]) => [u, { ok: e.ok, latencyMs: e.latencyMs, unknown: e.unknown }])),
+    });
   }
 
   // 4) 筛选 + 同名裁决

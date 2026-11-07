@@ -53,12 +53,20 @@ describe('probeOne（单频道测速）', () => {
     expect((await probeOne(ch('a', 'http://x/a.ts'))).ok).toBe(true);
   });
 
-  it('浏览器内 TypeError → unknown（CORS 不可判定，保守保留）', async () => {
+  it('浏览器内 TypeError + 非 m3u8 → unknown（保守保留）', async () => {
     mockFetch(() => 'network-error');
-    const r = await probeOne(ch('a', 'http://x/a'));
+    const r = await probeOne(ch('a', 'http://x/a.ts'));
     expect(r.ok).toBe(true);
     expect(r.unknown).toBe(true);
     expect(r.latencyMs).toBe(-1);
+  });
+
+  it('浏览器内 TypeError + m3u8 → 媒体元素二次探测裁决', async () => {
+    mockFetch(() => 'network-error');
+    const ok = await probeOne(ch('a', 'http://x/a.m3u8'), 5000, async () => true);
+    expect(ok).toMatchObject({ ok: true, latencyMs: -1 });
+    const dead = await probeOne(ch('b', 'http://x/b.m3u8'), 5000, async () => false);
+    expect(dead.ok).toBe(false);
   });
 
   it('壳内 TypeError → 确定性失败（hasNative）', async () => {
