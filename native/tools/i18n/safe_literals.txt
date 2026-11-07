@@ -26,6 +26,7 @@
 1	log	app/src/main/java/tv/own/owntv/BlurredBackdropLoader.kt	blur: produceState failed: ${it.javaClass.simpleName}: ${it.message}
 1	log	app/src/main/java/tv/own/owntv/MainActivity.kt	OwnTVHome
 1	compiler	app/src/main/java/tv/own/owntv/MainActivity.kt	RememberReturnType
+1	log	app/src/main/java/tv/own/owntv/MainActivity.kt	auto source run failed: ${it.message}
 1	log	app/src/main/java/tv/own/owntv/MainActivity.kt	database probe failed: $error
 1	performance	app/src/main/java/tv/own/owntv/MainActivity.kt	db-probed
 1	performance	app/src/main/java/tv/own/owntv/MainActivity.kt	destination-ready
@@ -39,6 +40,35 @@
 1	technical	app/src/main/java/tv/own/owntv/OwnTVApp.kt	ahXN00/OwnTV
 1	file-path	app/src/main/java/tv/own/owntv/OwnTVApp.kt	image_cache
 1	performance	app/src/main/java/tv/own/owntv/OwnTVApp.kt	koin-started
+4	empty	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	\0
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	"
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	#
+1	protocol	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	#EXTINF
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	#EXTINF:-1 group-title="
+2	protocol	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	#EXTM3U
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	${it.profileId}:${it.sourceId}
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	.m3u8
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	AutoSource
+1	protocol	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	GET
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	\\
+1	technical	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	\\"
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	after url dedupe: ${deduped.size}
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto source imported: ${usable.size} channels
+1	file-path	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto-source.m3u
+1	preference-key	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto_source
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	cleaned m3u written: ${usable.size} channels -> ${file.absolutePath}
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	delete old auto source failed: ${e.message}
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetch failed: $url: ${e.javaClass.simpleName}: ${e.message}
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetched ${channels.size} raw channel entries
+1	regex	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	group-title="([^"]*)"
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u
+1	preference-key	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	last_success_at
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	no channels fetched, keeping existing sources
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	no usable channels, keeping existing sources
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	probe done: $okCount ok / ${results.size} total
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	skip: last success %.1fh ago
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	start: fetching ${sources.size} sources
 3	empty	app/src/main/java/tv/own/owntv/core/i18n/LocalizedContent.kt	\0
 1	empty	app/src/main/java/tv/own/owntv/features/autostart/AutoStart.kt	\0
 1	file-path	app/src/main/java/tv/own/owntv/features/autostart/AutoStart.kt	/proc/self/cmdline

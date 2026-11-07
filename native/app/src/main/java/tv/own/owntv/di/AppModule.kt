@@ -42,6 +42,7 @@ import tv.own.owntv.features.setup.DisplaySizeViewModel
 import tv.own.owntv.features.setup.SetupViewModel
 import tv.own.owntv.features.shell.ShellViewModel
 import tv.own.owntv.features.subtitles.SubtitleSearchViewModel
+import tv.own.owntv.auto.AutoSourceManager
 
 /**
  * Root Koin module. Each feature will contribute its own bindings as the app grows;
@@ -72,6 +73,8 @@ val appModule = module {
     single<kotlinx.coroutines.CoroutineScope> {
         kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.Default)
     }
+    // 自动 IPTV 源：启动后台拉取内置公开源 → 测速筛选 → 走 core 导入（见 tv.own.owntv.auto）。
+    singleOf(::AutoSourceManager)
     viewModelOf(::HomeViewModel)
     viewModelOf(::SetupViewModel)
     viewModelOf(::DisplaySizeViewModel)

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import kotlinx.coroutines.launch
 import androidx.room.useWriterConnection
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -152,6 +153,13 @@ open class MainActivity : ComponentActivity() {
         // Staleness-based auto refresh on resume (interval modes only — STARTUP is cold-start only). The
         // ViewModel throttles this internally so a quick toggle doesn't re-run the check.
         shellViewModel.checkAutoRefresh(includeStartup = false)
+        // 自动 IPTV 源：后台拉取内置公开源 → 测速筛选 → 走 core 导入。
+        // maybeRun 内部有 24h 节流 + AtomicBoolean 防重入，onStart 多次触发安全；延迟 15s 让首屏先渲染。
+        get<kotlinx.coroutines.CoroutineScope>().launch {
+            kotlinx.coroutines.delay(15_000)
+            runCatching { get<tv.own.owntv.auto.AutoSourceManager>().maybeRun() }
+                .onFailure { Log.w(TAG, "auto source run failed: ${it.message}") }
+        }
     }
 
     /**
