@@ -56,14 +56,23 @@
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto source imported: ${usable.size} channels
 1	file-path	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto-source.m3u
 1	preference-key	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	auto_source
+1	protocol	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	chinanet
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	cleaned m3u written: ${usable.size} channels -> ${file.absolutePath}
+1	protocol	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	cmcc
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	delete old auto source failed: ${e.message}
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetch failed: $url: ${e.javaClass.simpleName}: ${e.message}
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetched ${channels.size} raw channel entries
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	geo detect failed: ${e.message}
+1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	geo: ${geo.first}/${geo.second} +${geoList.size} province sources
 1	regex	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	group-title="([^"]*)"
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	http://ip-api.com/json/?lang=zh-CN&fields=status,regionName,isp
 1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://live.fanmingming.com/tv/m3u/ipv6.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/0x1301FDF/iptv/main/iptv.m3u8
 1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/Meroser/IPTV/main/IPTV-demo.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/beckjimmy1005-beep/jsiptv/main/JSIPTV.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/cicivi/jsyd-iptv/main/m3u/iptv.m3u8
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/lesca/jiangsu-iptv/main/iptv_js_full-latest.m3u
 1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u
 1	preference-key	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	last_success_at
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	no channels fetched, keeping existing sources

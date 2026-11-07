@@ -42,9 +42,10 @@ class AutoSourceManager(
         private const val FETCH_TOTAL_TIMEOUT_MS = 20_000L
         private const val AUTO_SOURCE_NAME = "自动源"
         private const val KEY_CUSTOM_SOURCES = "custom_sources"
+        private const val GEO_API = "http://ip-api.com/json/?lang=zh-CN&fields=status,regionName,isp"
 
         /**
-         * 内置公开源清单（2026-11-07 收集实测，见 docs/iptv-sources.md；与 WebView 版保持一致）。
+         * 内置公共源清单（2026-11-07 收集实测，见 docs/iptv-sources.md）。
          * 可被 SharedPreferences 的 custom_sources 覆盖。
          */
         private val BUILTIN_SOURCES = listOf(
@@ -52,6 +53,28 @@ class AutoSourceManager(
             "https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u",
             "https://raw.githubusercontent.com/Meroser/IPTV/main/IPTV-demo.m3u",
             "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
+        )
+
+        /**
+         * IP 归属省的运营商源注册表（全部 http 单播/OTT，组播 rtp:// 不收录）。
+         * 运营商源有强地域+ISP 限制：与公共源一起交给测速，不适用者自然淘汰
+         * （实测：江苏电信宽带下移动 OTT 1/6、联通内网 0/6——测速是唯一可靠裁决）。
+         * key = ip-api regionName；ISP 归一化 Chinanet→telecom / China Unicom→unicom / CMCC→mobile。
+         */
+        private val PROVINCE_SOURCES: Map<String, Map<String, List<String>>> = mapOf(
+            "江苏" to mapOf(
+                "mobile" to listOf(
+                    "https://raw.githubusercontent.com/cicivi/jsyd-iptv/main/m3u/iptv.m3u8",
+                    "https://raw.githubusercontent.com/molu8072/IPTV/main/江苏移动.m3u",
+                    "https://raw.githubusercontent.com/0x1301FDF/iptv/main/iptv.m3u8",
+                ),
+                "unicom" to listOf(
+                    "https://raw.githubusercontent.com/lesca/jiangsu-iptv/main/iptv_js_full-latest.m3u",
+                ),
+                "telecom" to listOf(
+                    "https://raw.githubusercontent.com/beckjimmy1005-beep/jsiptv/main/JSIPTV.m3u",
+                ),
+            ),
         )
     }
 
@@ -94,9 +117,45 @@ class AutoSourceManager(
         }
     }
 
+    /** IP 归属检测；任何失败返回 null（退回纯公共源）。ip-api 免费版 http 无 key。 */
+    private suspend fun detectGeo(): Pair<String, String>? = withContext(Dispatchers.IO) {
+        try {
+            kotlinx.coroutines.withTimeout(FETCH_TOTAL_TIMEOUT_MS) {
+                val text = fetchText(GEO_API) ?: return@withTimeout null
+                val o = org.json.JSONObject(text)
+                if (o.optString("status") != "success") return@withTimeout null
+                val province = o.optString("regionName")
+                if (province !in PROVINCE_SOURCES) return@withTimeout null
+                val ispRaw = o.optString("isp").lowercase()
+                val isp = when {
+                    ispRaw.contains("telecom") || ispRaw.contains("chinanet") || ispRaw.contains("电信") -> "telecom"
+                    ispRaw.contains("unicom") || ispRaw.contains("联通") -> "unicom"
+                    ispRaw.contains("mobile") || ispRaw.contains("cmcc") || ispRaw.contains("移动") -> "mobile"
+                    else -> "other"
+                }
+                province to isp
+            }
+        } catch (e: Exception) {
+            Log.i(TAG, "geo detect failed: ${e.message}")
+            null
+        }
+    }
+
+    /** 归属省候选源：ISP 精确匹配，为空并入该省全部源（测速裁决） */
+    private fun geoSources(geo: Pair<String, String>): List<String> {
+        val table = PROVINCE_SOURCES[geo.first] ?: return emptyList()
+        val byIsp = table[geo.second]
+        if (!byIsp.isNullOrEmpty()) return byIsp
+        return table.values.flatten()
+    }
+
     /** 全链路：拉取 → 解析 → 测速 → 净化 M3U → 删旧 → 导入。返回可用频道数。 */
     suspend fun run(): Int = withContext(Dispatchers.Default) {
-        val sources = activeSources()
+        val publicSources = activeSources()
+        val geo = detectGeo()
+        val geoList = geo?.let { geoSources(it) }.orEmpty()
+        if (geo != null) Log.i(TAG, "geo: ${geo.first}/${geo.second} +${geoList.size} province sources")
+        val sources = publicSources + geoList.filter { g -> publicSources.none { it == g } }
         Log.i(TAG, "start: fetching ${sources.size} sources")
         val channels = fetchAndParseAll(sources)
         Log.i(TAG, "fetched ${channels.size} raw channel entries")

@@ -3,8 +3,9 @@ import { Channel } from '../types';
 import * as store from '../storage/store';
 import * as autoStore from '../storage/autoStore';
 import { fetchBridge } from '../bridge/native';
-import { fetchAndParseAll, dedupeByUrl, filterOk, pickFastestByName, buildAutoSource } from './merge';
+import { fetchAndParseAll, dedupeByUrl, filterOk, pickFastestByName, buildAutoSource, SourceSpec } from './merge';
 import { probeChannels } from './probe';
+import { detectGeo, geoSourcesFor } from './geo';
 
 export interface AutoProgress {
   phase: 'fetching' | 'probing' | 'done';
@@ -31,9 +32,19 @@ export async function runAutoFetch(
 ): Promise<AutoResult | null> {
   aborted = false; // 每次启动清除上一次的取消状态
 
-  // 1) 拉取
-  onProgress({ phase: 'fetching', detail: `拉取 ${autoStore.loadAutoSources().length} 个源…` });
-  const sources = autoStore.loadAutoSources();
+  // 1) 组装源清单：自定义/内置公共源 + IP 归属省的运营商源（若能检测到且已收录）。
+  //    归属省源与公共源一起测速——地域/运营商不适用的会被自然淘汰。
+  const publicSources = autoStore.loadAutoSources();
+  let geoSources: SourceSpec[] = [];
+  try {
+    const geo = await detectGeo(u => fetchBridge.fetchText(u));
+    if (geo) {
+      geoSources = geoSourcesFor(geo);
+      onProgress({ phase: 'fetching', detail: `IP 归属 ${geo.province}/${geo.isp}，并入 ${geoSources.length} 个省源` });
+    }
+  } catch { /* 归属检测失败静默退回公共源 */ }
+  const sources = [...publicSources, ...geoSources.filter(g => !publicSources.some(p => p.url === g.url))];
+  onProgress({ phase: 'fetching', detail: `拉取 ${sources.length} 个源…` });
   const { channels, errors } = await fetchAndParseAll(sources, u => fetchBridge.fetchText(u));
   if (aborted) return null;
   if (channels.length === 0) {
