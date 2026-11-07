@@ -1,10 +1,15 @@
 // src/storage/autoStore.ts
 import { SourceSpec } from '../auto/merge';
 
-/** 内置公开源清单（可在对话框中增删，自定义清单存 localStorage） */
+/**
+ * 内置公开源清单（2026-11-07 收集实测，见 docs/iptv-sources.md；可在对话框中增删，
+ * 自定义清单存 localStorage）。
+ */
 export const BUILTIN_SOURCES: SourceSpec[] = [
   { name: 'Guovin IPTV-API', url: 'https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u' },
-  { name: 'Fanmingming Live', url: 'https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u' },
+  { name: 'vbskycn IPTV4', url: 'https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u' },
+  { name: 'Meroser IPTV', url: 'https://raw.githubusercontent.com/Meroser/IPTV/main/IPTV-demo.m3u' },
+  { name: 'Fanmingming Live', url: 'https://live.fanmingming.com/tv/m3u/ipv6.m3u' },
 ];
 
 const K_AUTO_SOURCES = 'iptv:autoSources';

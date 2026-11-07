@@ -43,10 +43,15 @@ class AutoSourceManager(
         private const val AUTO_SOURCE_NAME = "自动源"
         private const val KEY_CUSTOM_SOURCES = "custom_sources"
 
-        /** 内置公开源清单（与 WebView 版保持一致） */
+        /**
+         * 内置公开源清单（2026-11-07 收集实测，见 docs/iptv-sources.md；与 WebView 版保持一致）。
+         * 可被 SharedPreferences 的 custom_sources 覆盖。
+         */
         private val BUILTIN_SOURCES = listOf(
             "https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u",
-            "https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u",
+            "https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u",
+            "https://raw.githubusercontent.com/Meroser/IPTV/main/IPTV-demo.m3u",
+            "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
         )
     }
 

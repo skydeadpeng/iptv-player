@@ -61,8 +61,10 @@
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetch failed: $url: ${e.javaClass.simpleName}: ${e.message}
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	fetched ${channels.size} raw channel entries
 1	regex	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	group-title="([^"]*)"
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://live.fanmingming.com/tv/m3u/ipv6.m3u
 1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
-1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/Meroser/IPTV/main/IPTV-demo.m3u
+1	url	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u
 1	preference-key	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	last_success_at
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	no channels fetched, keeping existing sources
 1	log	app/src/main/java/tv/own/owntv/auto/AutoSourceManager.kt	no usable channels, keeping existing sources
