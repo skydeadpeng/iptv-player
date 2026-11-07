@@ -11,8 +11,9 @@ android {
         applicationId = "com.iptv.webview"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        // 发布时用环境变量注入真版本号；本地默认 1.0.0（OwnTV 同款机制）
+        versionCode = (System.getenv("VERSION_CODE") ?: "1").toInt()
+        versionName = System.getenv("VERSION_NAME") ?: "1.0.0"
     }
 
     buildTypes {
